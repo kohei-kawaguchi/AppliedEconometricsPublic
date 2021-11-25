@@ -437,7 +437,7 @@ x_{lt} = W_{lt} \tau + z_{lk0} 1\{t = s\} C_{k, s} + \eta_{lt},
 <ul>
 <li>If correlated, consider whether it poses any doubt on the exogeneity assumption.</li>
 </ul></li>
-<li>Check the correlation between \(Z_l\) and placebo outcomes, that is likely to be correlated with the error in the main outcome, but should be unrelated to $Z_l $.</li>
+<li>Check the correlation between \(Z_l\) and placebo outcomes, that is likely to be correlated with the error in the main outcome, but should be unrelated to \(Z_l\).</li>
 <li>If there is a pre-treatment period, test the pre-trend.</li>
 <li>Check the robustness by using each \(z_{k0}\) as \(K\) instruments, rather than summarizing to \(B_{lt}\).</li>
 </ul>
@@ -482,7 +482,7 @@ x_{lt} = W_{lt} \tau + z_{lk0} 1\{t = s\} C_{k, s} + \eta_{lt},
 <li>If this is the case: \[
 \begin{split}
 \mathbb{E}[\sum_{k = 1}^K g_{kt} \overline{\epsilon}_{kt}] 
-&amp;= \mu \mathbb{E}[\sum_{k = 1}^K \overline{\epsilon}_{kt}] = \mu \mathbb{E}[\sum_{k = 1}^K z_{k0} \sum_{l = 1}^L \epsilon_{lt}]\\
+&amp;= \mu \mathbb{E}[\sum_{k = 1}^K \overline{\epsilon}_{kt}] = \mu \mathbb{E}[\sum_{l = 1}^L \epsilon_{lt} \sum_{k = 1}^K z_{kl0}]\\
 &amp;= \mu \mathbb{E}[\sum_{l = 1}^L \epsilon_{lt}] = 0.
 \end{split}
 \]</li>
@@ -496,7 +496,7 @@ x_{lt} = W_{lt} \tau + z_{lk0} 1\{t = s\} C_{k, s} + \eta_{lt},
 
 <ul>
 <li>For all \(k \neq k&#39;\) and \(t\): \[
-\mathbb{E}[\sum_{k = 1}^K z_{k0}^2] \to \infty.
+\mathbb{E}[\sum_{k = 1}^K z_{kl0}^2] \to \infty.
 \] \[
 Cov[g_{kt}, g_{k&#39;t}| \overline{\epsilon}, z] = 0.
 \]</li>
