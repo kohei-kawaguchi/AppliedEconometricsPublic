@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Potential Outcome Model</title>
+  <title>Shift-Share Design</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,9 +19,8 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Potential Outcome Model',
-                        subtitle: 'PhD Applied Econometrics',
-                useBuilds: true,
+                title: 'Shift-Share Design',
+                        useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
         enableTouch: true,
@@ -3138,7 +3137,7 @@ ul.task-list{list-style: none;}
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      
       <p data-config-presenter><!-- populated from slide_config.json --></p>
           </hgroup>
   </slide>
@@ -3187,1611 +3186,333 @@ $(document).ready(function() {
 });
 </script>
 
-<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Causality: The Basic Framework</h2></hgroup><article  id="causality-the-basic-framework">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Share-view of Shift-Share Design</h2></hgroup><article  id="share-view-of-shift-share-design">
 
-</article></slide><slide class=""><hgroup><h2>Unit and action</h2></hgroup><article  id="unit-and-action">
+</article></slide><slide class=""><hgroup><h2>A canonical example</h2></hgroup><article  id="a-canonical-example">
 
 <ul>
-<li>Consider a situation where an <em>action</em> (or manipulation, treatment, or intervention) is applied to a <em>unit</em>.</li>
-<li>For example, I (=unit) take the aspirin (=action) and you (= another unit) do not take the aspirin (=another action).</li>
+<li>Use a different cross-sectional exposure to the aggregate shock.</li>
+<li>Card (2009).</li>
+<li>Use 1980, 1990, and 2000 US Census data.</li>
+<li>\(y_{lj}\): the residual log wage gap between immigrant and native men in skill group \(j\) in city \(l\).</li>
+<li>\(x_{lj}\): the ratio of immigrant to native hours in skill group \(j\) in city \(l\).</li>
+<li>\(X_l\): a vector of city-level controls.</li>
+<li>Estimate \(\beta\) in: \[
+y_{lj} = \beta_0 + \beta \ln x_{lj} + \beta_2 X_l + \epsilon_{lj}.
+\]</li>
+<li>However, \(x_{lj}\) and \(\epsilon_{lj}\) can be correlated due to a labor demand shock specific to the skill group and the city.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Potential outcomes</h2></hgroup><article  id="potential-outcomes">
+</article></slide><slide class=""><hgroup><h2>A canonical example</h2></hgroup><article  id="a-canonical-example-1">
 
 <ul>
-<li>The <em>potential outcome</em> is the outcome that could happen when an action was applied to a unit.</li>
-<li>For example, the potential outcome for me when I take Aspirin, denoted by \(Y^\ast(Aspirin)\), takes a value of either headache or no headache.</li>
-<li>The potential outcome for me when I do not take Aspirin, denoted by \(Y^\ast(No Aspirin)\), also takes a value of either headache or no headache.</li>
-<li>Suppose that the true potential outcomes are like: <footnote>Modified Table 1.1 of Imbens and Rubin (2015) </footnote></li>
+<li>Consider aggregate shocks, \(g_{kj}\), the number of people arriving in the United States from 1990 to 2000 from country group \(k\) and skill group \(j\).</li>
+<li>Consider immigrant shares: \[
+z_{lk, 1980} = \frac{N_{lk, 1980}}{N_{k, 1980}} \cdot \frac{1}{P_{l, 2000}},
+\] where:</li>
+<li>\(N_{lk, 1980}\): the number of immigrants from country \(k\) in the United States in 1980 in city \(l\).</li>
+<li>\(N_{k, 1980}\): the number of immigrants from country \(k\) in the United States in 1980.</li>
+<li>\(P_{l, 2000}\): population of city \(l\) in 2000.</li>
 </ul>
 
-<table class = 'rmdtable'>
-<tr class="header">
-<th align="left">Unit</th>
-<th align="left">Potential outcomes</th>
-<th align="left"></th>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">\(Y^\ast(Aspirin)\)</td>
-<td align="left">\(Y^\ast(No Aspirin)\)</td>
-</tr>
-<tr class="even">
-<td align="left">I</td>
-<td align="left">No Headache</td>
-<td align="left">Headache</td>
-</tr>
-</table>
-
-</article></slide><slide class=""><hgroup><h2>Causal effect</h2></hgroup><article  id="causal-effect">
+</article></slide><slide class=""><hgroup><h2>A canonical example</h2></hgroup><article  id="a-canonical-example-2">
 
 <ul>
-<li>The causal effect of taking the aspirin for me involves the comparison of two potential outcomes \(Y^\ast(Aspirin)\) and \(Y^\ast(No Aspirin)\).</li>
-<li>If \(Y^\ast(Aspirin)\) is No Headache and \(Y^\ast(NoAspirin)\) is Headache, the causal effect is labeled as the Improvement due to Aspirin.<footnote>Table 1.1 of Imbens and Rubin (2015) </footnote></li>
+<li>Construct a <em>Bartik instrument</em> (Bartik 1991): \[
+B_{lj} = \sum_{k = 1}^K z_{lk, 1980} \cdot g_{kj}.
+\]</li>
+<li>Consider a first stage of: \[
+\ln x_{lj} = \gamma_0 + \gamma_1 B_{lj} + \gamma_2 X_l + \eta_{lj}.
+\]</li>
+<li>Then, consider a two-stage least-squares (TSLS) estimator of \(\beta\).</li>
 </ul>
 
-<table class = 'rmdtable'>
-<tr class="header">
-<th align="left">Unit</th>
-<th align="left">Potential outcomes</th>
-<th align="left"></th>
-<th align="left">Causal effect</th>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">\(Y^\ast(Aspirin)\)</td>
-<td align="left">\(Y^\ast(No Aspirin)\)</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">I</td>
-<td align="left">No Headache</td>
-<td align="left">Headache</td>
-<td align="left">Improvement due to Aspirin</td>
-</tr>
-</table>
-
-</article></slide><slide class=""><hgroup><h2>Possible causal effects</h2></hgroup><article  id="possible-causal-effects">
+</article></slide><slide class=""><hgroup><h2>Share-shift design</h2></hgroup><article  id="share-shift-design">
 
 <ul>
-<li>The truth is either of the following scenarios but we do not know which is true:<footnote>Modified Table 1.3 of Imbens and Rubin (2015) </footnote></li>
+<li>What are identifying assumptions for this estimator?</li>
+<li><em>Share-view</em>: assume the shares \(z_{kl}\) are exogenous (Goldsmith-Pinkham et al. 2020).</li>
+<li><em>Shock-view</em>: assume the shocks \(g_{kj}\) are exogenous (Borusyak et al 2021).</li>
+<li>They differ in the assumptions and valid inference.</li>
 </ul>
 
-<table class = 'rmdtable'>
-<tr class="header">
-<th align="left">Unit</th>
-<th align="left">Potential outcomes</th>
-<th align="left"></th>
-<th align="left">Causal effect</th>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">\(Y^\ast(Aspirin)\)</td>
-<td align="left">\(Y^\ast(No Aspirin)\)</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">1</td>
-<td align="left">No Headache</td>
-<td align="left">Headache</td>
-<td align="left">Improvement due to Aspirin</td>
-</tr>
-<tr class="odd">
-<td align="left">2</td>
-<td align="left">No Headache</td>
-<td align="left">No Headache</td>
-<td align="left">Headache gone regardless of Aspirin</td>
-</tr>
-<tr class="even">
-<td align="left">3</td>
-<td align="left">Headache</td>
-<td align="left">No Headache</td>
-<td align="left">Aspirin caused headache</td>
-</tr>
-<tr class="odd">
-<td align="left">4</td>
-<td align="left">Headache</td>
-<td align="left">Headache</td>
-<td align="left">No effect of Aspirin</td>
-</tr>
-</table>
-
-</article></slide><slide class=""><hgroup><h2>Observed outcomes</h2></hgroup><article  id="observed-outcomes">
+</article></slide><slide class=""><hgroup><h2>Setting</h2></hgroup><article  id="setting">
 
 <ul>
-<li>Suppose that one of the potential outcomes of unit \(i\) is observed when a treatment is assigned to the unit.</li>
-<li>For example, if \(Aspirin\) is assigned, then \(Y_i = Y_i^\ast(Aspirin)\) is observed and if \(No Aspirin\) is assigned, then \(Y_i = Y_i^\ast(No Aspirin)\) is observed.</li>
-<li>\(Y_i\) is called the <em>observed outcome</em> of unit \(i\), which differs by the assignment to unit \(i\).</li>
+<li>There are \(K\) industries and \(T\) times.</li>
+<li>Consider a structural model: \[
+y_{lt} = x_{lt}\beta_0 + W_{lt}\rho + \epsilon_{lt},
+\] where:</li>
+<li>\(y_{lt}\): the outcome in location \(l\) in time \(t\).</li>
+<li>\(x_{lt}\): the treatment in location \(l\) in time \(t\).</li>
+<li>\(W_{lt}\): a vector of observed controls in location \(l\) in tine \(t\).</li>
+<li>\(\epsilon_{lt}\): an error potentially correlated wit \(x_{lt}\).</li>
+<li>\(\beta_0\): parameter of interest.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Notations</h2></hgroup><article  id="notations">
+</article></slide><slide class=""><hgroup><h2>Setting</h2></hgroup><article  id="setting-1">
 
 <ul>
-<li>Units: \(i = 1, \cdots, N\).</li>
-<li>Binary treatment indicator: \(Z_i \in \{0, 1\}\).</li>
-<li>Potential outcomes: \(Y_i^\ast(0)\) and \(Y_i^\ast(1)\).</li>
-<li>Pre-treatment variables or covariates: \(W_i\).</li>
-<li>\(\mathbf{Y}^\ast(0)\): and \(\mathbf{Y}^\ast(1)\) be the \(N\)-component column vectors of potential outcomes with \(i\)th elements equal to \(Y_i^\ast(0)\) and \(Y_i^\ast(1)\).</li>
-<li>\(\mathbf{Z}\): \(N\)-component column vector with \(i\)th element equal to \(Z_i\).</li>
-<li>\(\mathbf{W}\): \(N \times K\) matrix of covariates with \(i\)th row equal to \(W_i\).</li>
+<li>Suppose that \(x_{lt}\) is decomposed as: \[
+x_{lt} = Z_{lt} \cdot G_{lt} = \sum_{k = 1}^K z_{lkt} g_{lkt}.
+\]</li>
+<li>For example, \(x_{lt}\) is the employment growth in location \(l\) in time \(t\), \(z_{lkt}\) is the employment share of industry \(k\) in location \(k\) at the beginning of time \(t\), and \(g_{lkt}\) is the employment growth of industry \(k\) in location \(l\) in time \(t\).</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Causal estimands</h2></hgroup><article  id="causal-estimands">
+</article></slide><slide class=""><hgroup><h2>Setting</h2></hgroup><article  id="setting-2">
 
 <ul>
-<li><p>The <em>unit-level causal effects</em>: \[
-Y_i^\ast(1) - Y_i^\ast(0), i = 1, \cdots, N.
-\]</p></li>
-<li><p>The <em>average causal effect</em>: \[
-\tau_{fs} = \frac{1}{N} \sum_{i = 1}^N [Y_i^\ast(1) - Y_i^\ast(0)].
-\]</p></li>
+<li>The industry-location-time-specific shock \(g_{lkt}\) is further decomposed into: \[
+g_{lkt} = g_{kt} + \tilde{g}_{lkt},
+\] where \(g_{kt}\) is the average shock of industry \(k\) in time \(t\) and \(\tilde{g}_{lkt}\) is an idiosyncratic shock.</li>
+<li>We want to address the correlation between \(\epsilon_{lt}\) and \(\tilde{g}_{lkt}\).</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Causal estimands</h2></hgroup><article  id="causal-estimands-1">
+</article></slide><slide class=""><hgroup><h2>Bartik instrument and the first-stage regression</h2></hgroup><article  id="bartik-instrument-and-the-first-stage-regression">
 
 <ul>
-<li>The <em>average causal effect conditional on the covariate</em>:</li>
+<li>Define <em>Bartik</em> instrument as: \[
+B_{lt} = Z_{l0} \cdot G_t = \sum_{k = 1}^K z_{lk0} g_{kt},
+\] where \(G_t = (G_{1t}, \cdots, G_{Kt})\).</li>
+<li>Consider a linear regression of \(x_{lt}\) on \(B_{lt}\) and \(W_{lt}\) as: \[
+x_{lt} \equiv B_{lt} \gamma + W_{lt} \tau + \eta_{lt}.
+\]</li>
 </ul>
 
-<p>\[
-\tau_{fs}(f) = \frac{1}{N(f)} \sum_{i: W_i = f} [Y_i^\ast(1) - Y_i^\ast(0)],
-\] where \(N(f) \equiv \#\{i = 1, \cdots, N: W_i = f\}\).</p>
+</article></slide><slide class=""><hgroup><h2>Data-generating process</h2></hgroup><article  id="data-generating-process">
 
 <ul>
-<li>The <em>average causal effect for those who were exposed to it</em>:</li>
+<li>We have data: \[
+\{y_l, W_l, \widetilde{G}_l, Z_l, Z_{l0}\}_{l = 1}^L,
+\] that are i.i.d. across \(l\) where:</li>
+<li>\(y_l = (y_{l1}, \cdots, y_{lt})\);</li>
+<li>\(W_l = (W_{l1}, \cdots, W_{lT})\);</li>
+<li>\(\widetilde{G}_l = (\widetilde{G}_{l1}, \cdots, \widetilde{G}_{lT})\);</li>
+<li>\(Z_l = (Z_{l1}, \cdots, Z_{lT})\).</li>
+<li>We view \(G = (G_{1}, \cdots, G_T)\) as fixed.</li>
+<li>We arrow for non-i.i.d. data within \(l\).</li>
 </ul>
 
-<p>\[
-\tau_{fs, t} = \frac{1}{N_1} \sum_{i: Z_i = 1} [Y_i^\ast(1) - Y_i^\ast(0)],
-\] where \(N_1 \equiv \sum_{i = 1}^N Z_i\).</p>
-
-</article></slide><slide class=""><hgroup><h2>Causal estimands</h2></hgroup><article  id="causal-estimands-2">
+</article></slide><slide class=""><hgroup><h2>Bartik estimator</h2></hgroup><article  id="bartik-estimator">
 
 <ul>
-<li>The <em>average causal effect for positive outcomes</em>: \[
-\tau_{fs, pos} = \frac{1}{N_{pos}} \sum_{i: Y_i^\ast(0) &gt; 0, Y_i^\ast(1) &gt; 0} [Y_i^\ast(1) - Y_i^\ast(0)],
-\] where \(N_{pos} \equiv \#\{i = 1, \cdots, N: Y_i^\ast(0) &gt; 0, Y_i^\ast(1) &gt; 0\}\).
+<li>The Bartik estimator of \(\beta\): \[
+\hat{\beta}_{bartik} = (B&#39;M_WX)^{-1} B&#39;M_WY
+\]</li>
+<li>If there is no control: \[
+\begin{split}
+\hat{\beta}_{bartik} &amp;= (B&#39;X)^{-1} B&#39;Y\\ 
+&amp;= \frac{\sum_{l = 1}^L \sum_{t = 1}^T \sum_{k = 1}^K z_{lk0} g_{kt} y_{lt}}{\sum_{l = 1}^L \sum_{t = 1}^T \sum_{k = 1}^K z_{lk0} g_{kt} x_{lt}}.
+\end{split}
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Two industries and one time example</h2></hgroup><article  id="two-industries-and-one-time-example">
 
 <ul>
-<li>e.g. effects on wages for employed workers.</li>
-<li>The definition depends on the potential outcomes but not on observed outcomes.</li>
+<li>Bartik instrument: \[
+B_l = z_{l1} g_1 + (1 - z_{l1}) g_2 = g_2 + (g_1 - g_2) z_{l1}.
+\]</li>
+<li>The first-stage regression: \[
+\begin{split}
+x_l &amp; = \gamma_0 + \gamma_1 B_t + \eta_{lt}\\
+&amp;= \gamma_0 + \gamma_1 g_2 + \gamma (g_1 - g_2) z_{l1} + \eta_l\\
+&amp;= \tilde{\gamma}_0 + \tilde{\gamma}_1 z_{l1} + \eta_l
+\end{split}
+\]</li>
+<li>Thus, this is a TSLS where \(z_{l1}\) is used as an instrument for \(x_l\).</li>
+<li>\(g_1 - g_2\) is the policy size.</li>
+<li>\(z_{l1}\) measures the exposure to the policy that affect industry 1.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Two industires and two time example</h2></hgroup><article  id="two-industires-and-two-time-example">
+
+<ul>
+<li>Bartik instrument: \[
+B_{lt} = z_{l10} g_{1t} + z_{l20} g_{2t} = g_{2t} + (g_{1t} - g_{2t}) z_{l10}.
+\]</li>
+<li>The first-stage regression: \[
+\begin{split}
+x_{lt} &amp;= \tau_t + B_{lt} \gamma + \eta_{lt}\\
+&amp;= (\tau_t + g_{2t} \gamma) + z_{l10} (g_{1t} - g_{2t})\gamma + \eta_{lt}\\
+&amp;=(\tau_t + g_{2t} \gamma) + z_{l10}1\{t = 1\}(g_{11} - g_{21}) \gamma\\
+&amp;+ z_{l10} 1\{t = 2\}(g_{12} - g_{22}) \gamma + \eta_{lt}\\
+&amp;=\tilde{\tau}_t + z_{l10} 1\{t = 1\} \tilde{\gamma}_1 + z_{l10} 1\{t = 2\} \tilde{\gamma}_2 + \eta_{lt}.
+\end{split}
+\]</li>
+<li>\(z_{l10}\) measures the exposure to the policy that affect industry 1.</li>
+<li>There are two policy size \(g_{1t} - g_{2t}\) for \(t = 1, 2\).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Connection to 2 x 2 DID</h2></hgroup><article  id="connection-to-2-x-2-did">
+
+<ul>
+<li>Policy size: \(g_{1t} - g_{2t}\) for \(t = 1, 2\).</li>
+<li>If we know that the policy is introduced at the end of period 1, we expect that the pre-trend is common: \(g_{11} - g_{11} = 0\).</li>
+<li>Then, we should test \(\tilde{\gamma}_1 = 0\).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>K industries and T times</h2></hgroup><article  id="k-industries-and-t-times">
+
+<ul>
+<li>The Bartik estimator of \(\beta\): \[
+\hat{\beta}_{bartik} = (B&#39;M_WX)^{-1} B&#39;M_WY
+\] is equivalent to a GMM estimator of \(\beta\): \[
+\hat{\beta}_{GMM} = (X&#39;M_W \tilde{Z} \Omega \tilde{Z}&#39; M_W X)^{-1} X&#39;M_W \tilde{Z} \Omega \tilde{Z}&#39; M_W Y,
+\] where the instrument is: \[
+\tilde{Z} = \text{diag}(Z, \cdots, Z)
+\] and the weight is: \[
+\Omega = G&#39;G
+\] where \(M_W = I - W(W&#39;W)^{-1}W&#39;\).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Consistency</h2></hgroup><article  id="consistency">
+
+<ul>
+<li><strong>Assumption: Relevance</strong>
+
+<ul>
+<li>For all \(k = 1, \cdots, K\) and \(s = 1, \cdots, T\): \[
+x_{lt} = W_{lt} \tau + z_{lk0} 1\{t = s\} C_{k, s} + \eta_{lt},
+\] where \(\mathbb{E}[\eta_{lt}|z_{lk0}, W_{lt}] = 0\), \(C_{ks}\) is finite for all \(k\) and \(s\), and \(\sum_s \sum_k g_{ks} C_{ks} \neq 0\).</li>
 </ul></li>
-<li>The general function of potential outcomes: \[
-\tau = \tau(\mathbf{Y}^\ast(0), \mathbf{Y}^\ast(1), \mathbf{W}, \mathbf{Z}),
-\]
-
-<ul>
-<li>where \(\tau\) is a row-exchangeable function.</li>
-</ul></li>
+<li>There must be an industry and time period when the indsustry share has predictive power for \(x_{lt}\) conditional on the controls.</li>
+<li>The growth rate \(g_{kt}\) cannot weight the covariances in such a way that they exactly cancel out.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Causal inference as missing data problem</h2></hgroup><article  id="causal-inference-as-missing-data-problem">
-
-<table class = 'rmdtable'>
-<tr class="header">
-<th align="left">Unit</th>
-<th align="left">Potential outcomes</th>
-<th align="left"></th>
-<th align="left">Causal Effect</th>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">\(Y_i^\ast(0)\)</td>
-<td align="left">\(Y_i^\ast(1)\)</td>
-<td align="left">\(Y_i^\ast(1) - Y_i^\ast(0)\)</td>
-</tr>
-<tr class="even">
-<td align="left">Patient 1</td>
-<td align="left">1</td>
-<td align="left">7</td>
-<td align="left">6</td>
-</tr>
-<tr class="odd">
-<td align="left">Patient 2</td>
-<td align="left">6</td>
-<td align="left">5</td>
-<td align="left">-1</td>
-</tr>
-<tr class="even">
-<td align="left">Patient 3</td>
-<td align="left">1</td>
-<td align="left">5</td>
-<td align="left">4</td>
-</tr>
-<tr class="odd">
-<td align="left">Patient 4</td>
-<td align="left">8</td>
-<td align="left">7</td>
-<td align="left">-1</td>
-</tr>
-<tr class="even">
-<td align="left">Average</td>
-<td align="left">4</td>
-<td align="left">6</td>
-<td align="left">2</td>
-</tr>
-</table>
+</article></slide><slide class=""><hgroup><h2>Consistency</h2></hgroup><article  id="consistency-1">
 
 <ul>
-<li>The average causal effect of this population is 2.<footnote>Table 1.4 of Imbens and Rubin (2015) </footnote></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Observed outcomes</h2></hgroup><article  id="observed-outcomes-1">
+<li><strong>Assumption: Strict exogeneity</strong>
 
 <ul>
-<li><p>The <em>observed</em> outcome of unit \(i\) is: \[
-Y_i^{obs} = Y_i^\ast(Z_i) = 
-\begin{cases}
-Y_i^\ast(0) &amp; \text{   if   } Z_i = 0\\
-Y_i^\ast(1) &amp; \text{   if   } Z_i = 1.
-\end{cases}
-\]</p></li>
-<li><p>The <em>missing</em> potential outcome of unit \(i\) is: \[
-Y_i^{mis} = Y_i^\ast(1 - Z_i) = 
-\begin{cases}
-Y_i^\ast(1) &amp; \text{   if   } Z_i = 0\\
-Y_i^\ast(0) &amp; \text{   if   } Z_i = 1.
-\end{cases}
-\]</p></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Observations from the previous treatment</h2></hgroup><article  id="observations-from-the-previous-treatment">
-
-<table class = 'rmdtable'>
-<tr class="header">
-<th align="left">Unit</th>
-<th align="left">Treatment</th>
-<th align="left">Observed outcome</th>
-</tr>
-<tr class="odd">
-<td align="left">Patient 1</td>
-<td align="left">1</td>
-<td align="left">7</td>
-</tr>
-<tr class="even">
-<td align="left">Patient 2</td>
-<td align="left">0</td>
-<td align="left">6</td>
-</tr>
-<tr class="odd">
-<td align="left">Patient 3</td>
-<td align="left">1</td>
-<td align="left">5</td>
-</tr>
-<tr class="even">
-<td align="left">Patient 4</td>
-<td align="left">0</td>
-<td align="left">8</td>
-</tr>
-</table>
-
-<ul>
-<li>The average outcomes are 6 for treated and 7 for not treated.<footnote>Table 1.5 of Imbens and Rubin (2015) </footnote></li>
-<li>The simple difference means that the treatment has the causal effect of -1, whereas the true average causal effect is 2.</li>
-<li>No valid conclusion can be made without knowing the <em>treatment assignment mechanism</em> to correct the missing data problem.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Fundamental problem of causal inference</h2></hgroup><article  id="fundamental-problem-of-causal-inference">
-
-<ul>
-<li>The definition depends on the potential outcomes, but not on which outcome is actually observed.
-
-<ul>
-<li>For example, I take Aspirin and feel no headache can be either of Improvement due to Aspirin and Headache gone regardless of Aspirin, because the headache could have gone without taking Aspirin.</li>
-</ul></li>
-<li>The definition is based on the comparison of potential outcomes of the same unit.
-
-<ul>
-<li>For example, I take Aspirin and feel no headache and you do not take Aspirin and feel headache does not mean that Aspirin improved my headache.</li>
-</ul></li>
-<li>The <em>individual causal effect</em> is <em>well-defined</em> but <em>never estimated</em> because at most one of the potential outcomes can be realized and observed for each unit.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>SUTVA</h2></hgroup><article  id="sutva">
-
-<ul>
-<li><p>The previous potential outcome model presumes the following:</p></li>
-<li><p><strong>Assumption: SUTVA (Stable unit treatment value assumption)</strong>:</p>
-
-<ol>
-<li>(no spillover, no interference) The potential outcomes for any unit do not vary with the treatments assigned to other units, and;</li>
-<li>(consistency, no multiple version of treatment) The observed outcome is uniquely determined by the potential outcome evaluated at the assignment to the unit.</li>
-</ol></li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>A Classification of Assignment Mechanisms</h2></hgroup><article  id="a-classification-of-assignment-mechanisms">
-
-</article></slide><slide class=""><hgroup><h2>Assignment mechanism</h2></hgroup><article  id="assignment-mechanism">
-
-<ul>
-<li><p>The <em>assignment mechanism</em> is a function that assigns probabilities to all \(2^N\) possible values for the \(N\)-vector of assignments \(\mathbf{Z}\), given the \(N\)-vectors of potential outcomes \(\mathbf{Y}^\ast(0)\) and \(\mathbf{Y}^\ast(1)\), and given \(N \times K\) matrix of covariates \(\mathbf{W}\).</p></li>
-<li><p><strong>Definition: Assignment Mechanism</strong>:</p>
-
-<ul>
-<li>Given a population of \(N\) units, the assignment mechanism is a row-exchangeable function \(\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]\), taking on values in \([0, 1]\), satisfying: \[
-  \sum_{\mathbf{Z} \in \{0, 1\}^N} \mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = 1,
-  \] for all \(\mathbf{W}\), \(\mathbf{Y}^\ast(0)\), and \(\mathbf{Y}^\ast(1)\).</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Remarks on the assignment mechanism</h2></hgroup><article  id="remarks-on-the-assignment-mechanism">
-
-<ul>
-<li>In general, dependence of the assignment on the potential outcomes is not ruled out.</li>
-<li>The dependence of the assignment on the covariate, assignment, and the potential outcomes of other units does not contradict with SUTVA, because SUTVA is about the definition of the potential outcomes.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Unit assignment probability</h2></hgroup><article  id="unit-assignment-probability">
-
-<ul>
-<li>Assignment mechanism is a joint probability of assignments for the entire population.</li>
-<li>We can derive the unit assignment probability from the assignment mechanism:</li>
-<li><strong>Definition: Unit Assignment Probability</strong>: \[
-  p_i(\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)) = \sum_{\mathbf{Z}: Z_i = 1} \mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]
-  \]</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Finite population propensity score</h2></hgroup><article  id="finite-population-propensity-score">
-
-<ul>
-<li>The average unit assignment probability for units with \(W_i = x\) is called the <em>propensity score</em> at \(x\).</li>
-<li><strong>Definition: Finite Population Propensity Score</strong>: \[
-  e(x) = \frac{1}{N(x)} \sum_{i: W_i = x} p_i(\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)),
-  \] where \(N(x) = \#\{i = 1, \cdots, N| W_i = x\}\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Restrictions on the assignment mechanism</h2></hgroup><article  id="restrictions-on-the-assignment-mechanism">
-
-<ul>
-<li><p>To classify the various types of assignment mechanisms, we present three general properties that assignment mechanisms may satisfy.</p>
-
-<ol>
-<li>Individualistic assignment.</li>
-<li>Probabilistic assignment.</li>
-<li>Unconfounded assignment.</li>
-</ol></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Individualistic assignment</h2></hgroup><article  id="individualistic-assignment">
-
-<ul>
-<li>The first restriction limits the dependence of the treatment assignment for unit \(i\) on the outcomes and assignments for other units.</li>
-<li><strong>Definition: Individualistic Assignment</strong>:
-
-<ul>
-<li>An assignment mechanism \(\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]\) is <em>individualistic</em> if, for some functions \(q(\cdot) \in [0, 1]\): \[
-p_i(\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)) = q(W_i, Y_i^\ast(0), Y_i^\ast(1))
+<li>For all \(k\) where \(g_k \neq 0\): \[
+\mathbb{E}[\epsilon_{lt} z_{lk0}| W_{lt}] = 0.
 \]</li>
 </ul></li>
+<li>Then, the Bartik estimator is consistent with \(L \to \infty\).</li>
+<li>Usually, we take changes in \(y_{lt}\) and \(x_{lt}\).</li>
+<li>Then, the exogeneity means that the initial industry share is exogenous to the changes in the error term conditional on controls.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Probabilistic assignment</h2></hgroup><article  id="probabilistic-assignment">
+</article></slide><slide class=""><hgroup><h2>Validation tests</h2></hgroup><article  id="validation-tests">
 
 <ul>
-<li>The second restriction requires that every unit has positive probability of being assigned to treatment level 0 and to treatment level 1.</li>
-<li><strong>Definition: Probabilistic Assignment</strong>:
+<li>Check the correlation between \(Z_l\) and the other initial characteristics \(W_{l0}\).
 
 <ul>
-<li>An assignment mechanism \(\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]\) is <em>probabilistic</em> if: \[
-0 &lt; p_i(\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)) &lt; 1, \forall \mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0), \forall i.
+<li>If correlated, consider whether it poses any doubt on the exogeneity assumption.</li>
+</ul></li>
+<li>Check the correlation between \(Z_l\) and placebo outcomes, that is likely to be correlated with the error in the main outcome, but should be unrelated to \(Z_l\).</li>
+<li>If there is a pre-treatment period, test the pre-trend.</li>
+<li>Check the robustness by using each \(z_{k0}\) as \(K\) instruments, rather than summarizing to \(B_{lt}\).</li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Shock-view of Shift-Share Design</h2></hgroup><article  id="shock-view-of-shift-share-design">
+
+</article></slide><slide class=""><hgroup><h2>What is different?</h2></hgroup><article  id="what-is-different">
+
+<ul>
+<li>In the share-view, the exogeneity condition was for all \(k\) where \(g_k \neq 0\): \[
+\mathbb{E}[\epsilon_{lt} z_{lk0}| W_{lt}] = 0.
+\]</li>
+<li>This is sufficient but not necessary.</li>
+<li>We just need for all \(t\): \[
+\mathbb{E}[\sum_{l = 1}^L \epsilon_{lt} B_{lt}| W_{lt}] = 0.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>What is different?</h2></hgroup><article  id="what-is-different-1">
+
+<ul>
+<li>This can be written as: \[
+\begin{split}
+0 &amp;= \mathbb{E}[\sum_{l = 1}^L \epsilon_{lt} \sum_{k = 1}^K z_{kl0} g_{kt}]\\
+&amp;= \mathbb{E}[\sum_{k = 1}^K g_{kt} \sum_{l = 1}^L z_{kl0} \epsilon_{lt}]\\
+&amp;= \mathbb{E}[\sum_{k = 1}^K g_{kt} \overline{\epsilon}_{kt}].
+\end{split}
+\]</li>
+<li>It is satisfied as long as \(g_{kt}\) is uncorrelated with \(\overline{\epsilon}_{kt}\) even if \(z_{kl0}\) is correlated with \(\epsilon_{lt}\).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Consistency</h2></hgroup><article  id="consistency-2">
+
+<ul>
+<li><strong>Assumption: Quasi-random shock assignment</strong>
+
+<ul>
+<li>For all \(k\) and \(t\): \[
+\mathbb{E}[g_{kt}| \overline{\epsilon}, z] = \mu.
 \]</li>
 </ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Unconfounded assignment</h2></hgroup><article  id="unconfounded-assignment">
-
-<ul>
-<li>The third condition states that the assignment does not depend on the potential outcome.</li>
-<li><strong>Definition: Unconfounded Assignment</strong>:
-
-<ul>
-<li>An assignment mechanism \(\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]\) is <em>unconfounded</em> if: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = \mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1)&#39;, \mathbf{Y}^\ast(0)&#39;]
-\] for all \(\mathbf{Z}, \mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0), \mathbf{Y}^\ast(1)&#39;, \mathbf{Y}^\ast(0)&#39;\).</li>
-</ul></li>
-<li>If an assignment mechanism is unconfounded, we can simplify the assignment to \(\mathbb{P}(\mathbf{Z}|\mathbf{W})\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Individualistic, probabilistic, and unconfounded assignment</h2></hgroup><article  id="individualistic-probabilistic-and-unconfounded-assignment">
-
-<ul>
-<li>The assignment mechanism is written as: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = \mathbb{P}(\mathbf{Z}|\mathbf{W}) = c \cdot \prod_{i = 1}^N q(W_i)^{Z_i} \cdot [1 - q(W_i)]^{1 - Z_i},
-\] and the propensity score is the unit-level assignment probability: \[
-e(x) = q(x).
+<li>If this is the case: \[
+\begin{split}
+\mathbb{E}[\sum_{k = 1}^K g_{kt} \overline{\epsilon}_{kt}] 
+&amp;= \mu \mathbb{E}[\sum_{k = 1}^K \overline{\epsilon}_{kt}] = \mu \mathbb{E}[\sum_{l = 1}^L \epsilon_{lt} \sum_{k = 1}^K z_{kl0}]\\
+&amp;= \mu \mathbb{E}[\sum_{l = 1}^L \epsilon_{lt}] = 0.
+\end{split}
 \]</li>
-<li>Given individualistic assignment, the combination of probabilistic and unconfounded assignment is referred to as <em>strongly ignorable treatment assignment</em>.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Randomized experiment</h2></hgroup><article  id="randomized-experiment">
+</article></slide><slide class=""><hgroup><h2>Consistency</h2></hgroup><article  id="consistency-3">
 
 <ul>
-<li><strong>Definition: Randomized Experiment</strong>:
+<li>In the shock-view, we use asymptotics of \(K \to \infty\).</li>
+<li><strong>Assumption: Many uncorrelated shocks</strong>
 
 <ul>
-<li>A <em>randomized experiment</em> is an assignment mechanism that:
-
-<ul>
-<li>is probabilistic, and</li>
-<li>has a known functional form that is controlled by the researcher.</li>
+<li>For all \(k \neq k&#39;\) and \(t\): \[
+\mathbb{E}[\sum_{k = 1}^K z_{kl0}^2] \to \infty.
+\] \[
+Cov[g_{kt}, g_{k&#39;t}| \overline{\epsilon}, z] = 0.
+\]</li>
 </ul></li>
-</ul></li>
-<li><strong>Definition: Classical Randomized Experiment</strong>:
-
-<ul>
-<li>A <em>classical randomized experiment</em> is a randomized experiment with an assignment mechanism that is:
-
-<ul>
-<li>individualistic, and</li>
-<li>unconfounded.</li>
-</ul></li>
-</ul></li>
-<li><strong>Definition: Natural Experiment</strong>:
-
-<ul>
-<li>A randomized experiment in which the assignment mechanism is designed by someone different from the analyst.</li>
-</ul></li>
+<li>The expected shock exposure is asymptotically completely disperesed.</li>
+<li>The shocks are mutually uncorrelated.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Completely randomized experiments</h2></hgroup><article  id="completely-randomized-experiments">
+</article></slide><slide class=""><hgroup><h2>Estimation and inference</h2></hgroup><article  id="estimation-and-inference">
 
 <ul>
-<li>A fixed number of units, say \(N_1\), is drawn at random from the population of \(N\) units to receive the active treatment, with the remaining \(N_0 = N - N_1\) assigned to the control group.</li>
-<li>The assignment probability: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = 
-\begin{pmatrix}
-N\\
-N_1
-\end{pmatrix}^{-1},
-\] for all \(\mathbf{Z}\) such that \(\sum_{i = 1}^N Z_i = N_1\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Stratified randomized experiments</h2></hgroup><article  id="stratified-randomized-experiments">
+<li>The estimator is the same with the share-view of shift-share design.</li>
+<li>However, the inference is involved, because:
 
 <ul>
-<li>First partition the population on the basis of covariate values into \(G\) strata, i.e. if the covariate space is \(\mathbb{X}\), partition \(\mathbb{X}\) into \(\mathbb{X}_1, \cdots, \mathbb{X}_G\), so that \(\bigcup_g \mathbb{X}_g = \mathbb{X}\) and \(\mathbb{X}_g \cap \mathbb{X}_{g&#39;} = \emptyset\) if \(g \neq g&#39;\).</li>
-<li>Let \(G_{ig} = 1_{W_i \in \mathbf{W}_g}\) and \(N_g\) be the number of units in stratum \(g\).</li>
-<li>Fix the number of treated units in each stratum as \(N_{tg}\) such that \(\sum_g N_{tg} = N_1\).</li>
-<li>The assignment probability is: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = \prod_{g = 1}^G 
-\begin{pmatrix}
-N_g\\
-N_{tg}
-\end{pmatrix}^{-1},
-\] for all \(\mathbf{Z}\) such that \(\sum_{i = 1}^N Z_i \cdot G_{ig} = N_{tg}\) for all \(g\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Paired randomized experiments</h2></hgroup><article  id="paired-randomized-experiments">
-
-<ul>
-<li>An extreme case of stratification where each stratum contains exactly one treated unit and exactly one control unit.</li>
-<li>There are \(G = N/2\) strata and \(N_g = 2\) and \(N_{tg} = 1\) for all \(g\).</li>
-<li>The assignment probability is: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = \bigg(\frac{1}{2}\bigg)^{\frac{N}{2}},
-\] for all \(\mathbf{Z}\) such that \(\sum_{i = 1}^N Z_i \cdot G_{ig} = 1\) for all \(g\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Clustered randomized experiments</h2></hgroup><article  id="clustered-randomized-experiments">
-
-<ul>
-<li>Partition the covariate space into clusters and treatments are assigned randomly to entire clusters, with all units within a cluster receiving the same level of the treatment.</li>
-<li>This design may be motivated by concerns that there are interactions between units.</li>
-<li>\(G_t\) out of \(G\) clusters are selected randomly to be assigned to the treatment group.</li>
-<li>Let \(\overline{W}_g = \sum_{i: G_{ig} = 1} Z_i / N_g\) be the average value of \(Z_i\).</li>
-<li>The assignment probability is: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = 
-\begin{pmatrix}
-G \\
-G_t
-\end{pmatrix}^{-1},
-\] for all \(\mathbf{Z}\) such that if \(W_{ig} = W_{i&#39;g} = 1\) and \(\sum_g \overline{W}_g = G_t\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Observational studies: Regular assignment mechanisms with compliance</h2></hgroup><article  id="observational-studies-regular-assignment-mechanisms-with-compliance">
-
-<ul>
-<li><strong>Definition: Observational Study</strong>:
-
-<ul>
-<li>An assignment mechanism corresponds to an observational study if the functional form of the assignment mechanism is unknown.</li>
+<li>\(g_{kt}\) is regarded as random variable.</li>
+<li>This creates correlation across locations.</li>
 </ul></li>
-<li><strong>Definition: Regular Assignment Mechanism</strong>:
-
-<ul>
-<li>An assignment mechanism is <em>regular</em> if:
-
-<ul>
-<li>the assignment mechanism is individualistic,</li>
-<li>the assignment mechanism is probabilistic, and</li>
-<li>the assignment mechanism is unconfounded.</li>
-</ul></li>
-</ul></li>
-<li><strong>Definition: Quasi-Experiment</strong>:
-
-<ul>
-<li>An observational study in which some of the features of the regular assignment mechanism can be justified based on the institutional knowledge.</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Sampling-based and assignment-based uncertainty</h2></hgroup><article  id="sampling-based-and-assignment-based-uncertainty">
-
-</article></slide><slide class=""><hgroup><h2>Definition</h2></hgroup><article  id="definition">
-
-<ul>
-<li>Two types of uncertainty affects the inference.</li>
-<li>The <em>sampling-based uncertainty</em> refers to the randomness due to the sampling from the population.
-
-<ul>
-<li>The sample is finite. The population may be infinite or finite.</li>
-</ul></li>
-<li>The <em>assignment-based uncertainty</em> refers to the randomness due to the assignment over the sample.
-
-<ul>
-<li>Sometimes called design-based or randomization-based uncertainty.</li>
-</ul></li>
-<li>Make sure which of (or both of) the uncertainty matters when considering inference.</li>
+<li>Adao et al. (2019) propose a exposure-based clustering.</li>
+<li>Simpler way is to construct a shock-level main equation: \[
+\overline{y}_{kt} = \overline{x}_{kt}\beta_0 + \overline{W}_{kt}\rho + \overline{\epsilon}_{kt},
+\] where \(\overline{y}_{kt} = \sum_{l = 1}^L z_{kl0} y_{lt}\) and others are the same.</li>
+<li>Then, its heteroskedasticity-robust standard error yields asymptotically valid confidence interval.</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example">
 
-<div style="display: flex; justify-content: center;">
-<table>
-
-<tr style="background-color: #EFEFEF;">
-
-<th style="padding: 1em; font-family: sans-serif;">
-
-\(i\)
-
-</th>
-
-<th style="padding: 1em; font-family: sans-serif;">
-
-\(O_i\)
-
-</th>
-
-<th style="padding: 1em; font-family: sans-serif;">
-
-\(Z_i\)
-
-</th>
-
-<th colspan="2" style="font-family: sans-serif; background-color: #EFEFEF;">
-
-\(Y_i^\ast(\cdot)\)
-
-</th>
-
-</tr>
-
-<tr>
-
-<td style="padding: 3em;">
-
-</td>
-
-<td style="padding: 3em;">
-
-</td>
-
-<td style="padding: 3em;">
-
-</td>
-
-<td style="padding: 3em;">
-
-0
-
-</td>
-
-<td style="padding: 3em;">
-
-1
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-350
-
-</td>
-
-<td>
-
-500
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-2
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-700
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-3
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-800
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-4
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-700
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-5
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-650
-
-</td>
-
-<td>
-
-780
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-6
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td>
-
-450
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-7
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-250
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-400
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-8
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-850
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-9
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-760
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-820
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-10
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-750
-
-</td>
-
-<td>
-
-560
-
-</td>
-
-</tr>
-
-</table></div>
+<ul>
+<li>Hummels et al. (2014):
 
 <ul>
-<li>The test score of a student when they took a tutorial.</li>
-<li>The grey background means the student is sampled.</li>
-<li>The underline means the student is assigned to the treatment group.</li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Difference from structural estimation approach</h2></hgroup><article  id="difference-from-structural-estimation-approach">
-
-</article></slide><slide class=""><hgroup><h2>Structural estimation approach</h2></hgroup><article  id="structural-estimation-approach">
-
-<ul>
-<li>Traditional approach in economics.</li>
-<li>Origins from Haavelmo (1943, 1944).</li>
-<li>All textbooks and econometric classes starting from the OLS and moving on to IV and GMM are based on the structural estimation approach.
-
-<ul>
-<li>Describe an economic model with shocks.</li>
-<li>Derive the equilibrium condition (<em>structural-form</em> econometric model).</li>
-<li>Solve the equilibrium condition for endogenous variables (<em>reduced-form</em> econometric model).</li>
-<li>Use OLS to estimate parameters in the reduced-form model.</li>
-<li>Use GMM to estimate parameters in the structural-form model.</li>
-<li>Use IV to estimate parameters in part of the structural-form model.</li>
+<li>Estimate the wage effects of offshoring across Danish importin firm \(l\).</li>
+<li>The shock index \(n\) refers to a type of intermediate inputs and an origin country; titanium hinges from Japan.</li>
 </ul></li>
-<li>The pure form is found in Hsiao (1983)</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Difference in philosophy</h2></hgroup><article  id="difference-in-philosophy">
+<li>Peri et al. (2016):
 
 <ul>
-<li>Anything assumed outside data distribution is a latent model.
-
-<ul>
-<li>The latent model in structural estimation approach is an economic model.</li>
-<li>The latent model in potential outcome approach is a potential outcome model, which may or may not be derived from an economic model.</li>
+<li>Estimate the effecet of immigrant STEM workers on the labour market outcomes of natives across U.S. cities \(l\).</li>
+<li>The shock index \(n\) refers to a migration origin country.</li>
 </ul></li>
-<li>Restrictions from latent model
-
-<ul>
-<li>In structural estimation approach, the economic model is used to derive restrictions.</li>
-<li>In potential outcome approach, institutional knowledge is used to derive restrictions, and using economic model is avoided.</li>
-<li>In potential outcome approach, an economic model just gives an interpretation of the result.</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Identification</h2></hgroup><article  id="identification">
-
-</article></slide><slide class=""><hgroup><h2>Model and the State of the World</h2></hgroup><article  id="model-and-the-state-of-the-world">
-
-<ul>
-<li>Consider the previous table of student’s test score.</li>
-<li>Suppose that we are interested in the finite-sample average treatment effect.</li>
-<li><em>Model</em> \(\mathcal{M}\): possible values of \(\mathbf{Y}^\ast(\cdot)\) and \(\mathbf{P}_Z\).</li>
-<li><em>The state of the world</em>: a value of \(m = (\mathbf{y}^\ast(\cdot), \mathbf{p}_Z) \in \mathcal{M}\).
-
-<ul>
-<li>For example: \(\mathbf{y}^\ast(\cdot)\) is as in the table, \(\mathbf{p}_Z\) is a completely randomized experiment.</li>
-</ul></li>
-<li>This uniquely determines the value of <em>parameter of interest</em> \(\theta\): \[
-\theta = \frac{1}{N} \sum_{i = 1}^N [y_i^\ast(1) - y_i^\ast(0)] = 174.  
-\]</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Information and Structure</h2></hgroup><article  id="information-and-structure">
-
-<ul>
-<li><em>Information</em> \(\phi\) to the analyst: all information that the analyst has about the model.
-
-<ul>
-<li>Includes the basic setting of the binary potential outcome model.</li>
-<li>Include the knowledge of the assignment mechanism.</li>
-<li>Does not include the potential outcome.</li>
-</ul></li>
-<li><em>Structure</em> \(s(\phi, \theta) \subset \mathcal{M}\): the value of \(m \in \mathcal{M}\) that is consistent with the information \(\phi\) and the value of \(\theta\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Observationally equivalent and Identification</h2></hgroup><article  id="observationally-equivalent-and-identification">
-
-<ul>
-<li>Parameter \(\theta\) and \(\tilde{\theta}\) are said to be <em>observationally equivalent</em> if there exist information \(\phi\) and \(s(\phi, \theta) \neq \emptyset\) and \(s(\phi, \tilde{\theta}) \neq \emptyset\).
-
-<ul>
-<li>If two parameters are observationally equivalent, both can be consistent with the information to the analyst.</li>
-</ul></li>
-<li>The parameter \(\theta\) is said to be <em>identified</em> if there is no other parameter \(\tilde{\theta}\) that is observationally equivalent to \(\theta\).</li>
-<li>The parameter space \(\Theta\) is said to be <em>globally identified</em> if every parameter in \(\Theta\) is identified.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example-1">
-
-<ul>
-<li>Because \(Y_i\) and the assignment mechanism \(\mathbf{p}_z\) is included in information \(\phi\), the analyst can calculate the following expected value \[
-\mathbb{E}\left[\frac{1}{N_1}\sum_{i = 1}^N Z_i Y_i - \frac{1}{N_0} \sum_{i = 1}^N (1 - Z_i) Y_i\right].
-\]</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example-2">
-
-<ul>
-<li><p>Because the knowledge that the assignment mechanism is unconfounded is included in information \(\phi\), the analyst can show that the above is \[
-\begin{split}
-  &amp;\frac{1}{N_1} \sum_{i = 1}^N \mathbb{E}[Z_i] Y_i^\ast(1) - \frac{1}{N_0} \sum_{i = 1}^N (1 - \mathbb{E}[Z_i]) Y_i^\ast(0) \\
-  &amp;= \frac{1}{N_1} \sum_{i = 1}^N \frac{N_1}{N} Y_i^\ast(1) - \frac{1}{N_0} \sum_{i = 1}^N \frac{N_0}{N} Y_i^\ast(0) \\
-  &amp;= \frac{1}{N} \sum_{i = 1}^N Y_i^\ast(1) - \frac{1}{N} \sum_{i = 1}^N Y_i^\ast(0) \\
-  &amp;= \theta
-\end{split}
-\]</p></li>
-<li><p>The information uniquely determines \(\theta\): The parameter \(\theta\) is identified.</p></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Counterexample</h2></hgroup><article  id="counterexample">
-
-<ul>
-<li>Suppose that assignment mechanism \(\mathbf{p}_Z\) is such that assigning tutorial to three students whose individual treatment effect is the highest.
-
-<ul>
-<li>Units 1, 2, 7 are always treated.</li>
-<li>Units 5, 9 are never treated.</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Counterexample</h2></hgroup><article  id="counterexample-1">
-
-<div style="display: flex; justify-content: center; gap: 20px;">
-<div>
-<table style="border-collapse: collapse; margin: auto; font-family: sans-serif;">
-
-<tr style="background-color: #EFEFEF;">
-
-<th style="padding: 0.5em;">
-
-\(i\)
-
-</th>
-
-<th colspan="2" style="background-color: #EFEFEF; padding: 0.5em;">
-
-</th>
-
-</tr>
-
-<tr>
-
-<td>
-
-</td>
-
-<td style="padding: 0.5em;">
-
-\(Y_i^\ast(0)\)
-
-</td>
-
-<td style="padding: 0.5em;">
-
-\(Y_i^\ast(1)\)
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-350
-
-</td>
-
-<td style="text-decoration: underline;">
-
-500
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-2
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td style="text-decoration: underline;">
-
-700
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-3
-
-</td>
-
-<td>
-
-800
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-4
-
-</td>
-
-<td>
-
-700
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-5
-
-</td>
-
-<td style="text-decoration: underline;">
-
-650
-
-</td>
-
-<td>
-
-780
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-6
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td>
-
-450
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-7
-
-</td>
-
-<td>
-
-250
-
-</td>
-
-<td style="text-decoration: underline;">
-
-400
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-8
-
-</td>
-
-<td>
-
-850
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-9
-
-</td>
-
-<td style="text-decoration: underline;">
-
-760
-
-</td>
-
-<td>
-
-820
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-10
-
-</td>
-
-<td>
-
-750
-
-</td>
-
-<td>
-
-560
-
-</td>
-
-</tr>
-
-</table></div>
-
-<div>
-<table style="border-collapse: collapse; margin: auto; font-family: sans-serif;">
-
-<!-- Second table content here -->
-
-<tr style="background-color: #EFEFEF;">
-
-<th style="padding: 0.5em;">
-
-\(i\)
-
-</th>
-
-<th colspan="2" style="background-color: #EFEFEF; padding: 0.5em;">
-
-</th>
-
-</tr>
-
-<tr>
-
-<td>
-
-</td>
-
-<td style="padding: 0.5em;">
-
-\(Y_i^\ast(0)\)
-
-</td>
-
-<td style="padding: 0.5em;">
-
-\(Y_i^\ast(1)\)
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-[340]
-
-</td>
-
-<td style="text-decoration: underline;">
-
-500
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-2
-
-</td>
-
-<td>
-
-[310]
-
-</td>
-
-<td style="text-decoration: underline;">
-
-700
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-3
-
-</td>
-
-<td>
-
-800
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-4
-
-</td>
-
-<td>
-
-700
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-5
-
-</td>
-
-<td style="text-decoration: underline;">
-
-650
-
-</td>
-
-<td>
-
-[790]
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-6
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td>
-
-450
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-7
-
-</td>
-
-<td>
-
-[240]
-
-</td>
-
-<td style="text-decoration: underline;">
-
-400
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-8
-
-</td>
-
-<td>
-
-850
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-9
-
-</td>
-
-<td style="text-decoration: underline;">
-
-760
-
-</td>
-
-<td>
-
-[830]
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-10
-
-</td>
-
-<td>
-
-750
-
-</td>
-
-<td>
-
-560
-
-</td>
-
-</tr>
-
-</table></div></div>
-
-<ul>
-<li>The value of \(\frac{1}{N_1} \sum_{i = 1}^N Z_i Y_i - \frac{1}{N_0} \sum_{i = 1}^N (1 - Z_i) Y_i\) is always -171.7 because treatment assignment does not change.</li>
-<li>Change of the model from the left to right does not change \(\phi\) including this value because it just modifies the values of potential outcome that are never observed and increases the average treatment effect by 10.</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Reference</h2></hgroup><article  id="reference">
 
 <ul>
-<li>Chapter 1-4, Guido W. Imbens and Donald B. Rubin, 2015, Causal Inference for Statistics, Social, and Biomedical Sciences, Cambridge University Press.</li>
-<li>Section 1-3, Athey, Susan, and Guido Imbens. 2016. &ldquo;The Econometrics of Randomized Experiments.&rdquo; arXiv [stat.ME]. arXiv. <a href='http://arxiv.org/abs/1607.00698' title=''>http://arxiv.org/abs/1607.00698</a>.</li>
-<li>Abadie, Alberto, Susan Athey, Guido W. Imbens, and Jeffrey M. Wooldridge. 2020. &ldquo;Sampling‐based versus Design‐based Uncertainty in Regression Analysis.&rdquo; Econometrica: Journal of the Econometric Society 88 (1): 265–96.</li>
-<li>Haavelmo, Trygve. &ldquo;The Statistical Implications of a System of Simultaneous Equations.&rdquo; Econometrica 11, no. 1 (1943): 1–12.</li>
-<li>Haavelmo, Trygve. &ldquo;The Probability Approach in Econometrics.&rdquo; Econometrica 12 (1944): iii–115.</li>
-<li>Hsiao, Cheng. &ldquo;Chapter 4 Identification.&rdquo; In Handbook of Econometrics, 1:223–83. Elsevier, 1983.</li>
+<li>Adao, Rodrigo, Michal Kolesár, and Eduardo Morales. 2019. “Shift-Share Designs: Theory and Inference.” The Quarterly Journal of Economics 134 (4): 1949–2010.</li>
+<li>Borusyak, Kirill, Peter Hull, and Xavier Jaravel. 2021. “Quasi-Experimental Shift-Share Research Designs.” The Review of Economic Studies, June. <a href='https://doi.org/10.1093/restud/rdab030' title=''>https://doi.org/10.1093/restud/rdab030</a>.</li>
+<li>Goldsmith-Pinkham, Paul, Isaac Sorkin, and Henry Swift. 2020. “Bartik Instruments: What, When, Why, and How.” The American Economic Review 110 (8): 2586–2624.</li>
+<li>Hummels, David, Rasmus Jørgensen, Jakob Munch, and Chong Xiang. 2014. “The Wage Effects of Offshoring: Evidence from Danish Matched Worker-Firm Data.” The American Economic Review 104 (6): 1597–1629.</li>
+<li>Peri, Giovanni, Kevin Shih, and Chad Sparber. 2015. “STEM Workers, H-1B Visas, and Productivity in US Cities.” Journal of Labor Economics 33 (S1): S225–55.</li>
 </ul></article></slide>
 
 

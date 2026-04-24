@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Potential Outcome Model</title>
+  <title>Assignment mechanism with Noncompliers</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,9 +19,8 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Potential Outcome Model',
-                        subtitle: 'PhD Applied Econometrics',
-                useBuilds: true,
+                title: 'Assignment mechanism with Noncompliers',
+                        useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
         enableTouch: true,
@@ -3138,7 +3137,7 @@ ul.task-list{list-style: none;}
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      
       <p data-config-presenter><!-- populated from slide_config.json --></p>
           </hgroup>
   </slide>
@@ -3187,1611 +3186,715 @@ $(document).ready(function() {
 });
 </script>
 
-<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Causality: The Basic Framework</h2></hgroup><article  id="causality-the-basic-framework">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Assignment mechanism with Noncompliers</h2></hgroup><article  id="assignment-mechanism-with-noncompliers">
 
-</article></slide><slide class=""><hgroup><h2>Unit and action</h2></hgroup><article  id="unit-and-action">
+</article></slide><slide class=""><hgroup><h2>Noncompliers</h2></hgroup><article  id="noncompliers">
 
 <ul>
-<li>Consider a situation where an <em>action</em> (or manipulation, treatment, or intervention) is applied to a <em>unit</em>.</li>
-<li>For example, I (=unit) take the aspirin (=action) and you (= another unit) do not take the aspirin (=another action).</li>
+<li>So far, we have assumed that the <em>assignment</em> of treatment implied the <em>receipt</em> of treatment.
+
+<ul>
+<li>Prescribing drug means that the subject takes the drug.</li>
+</ul></li>
+<li>However, there are many cases in which a subject assigned to treatment does not receive the treatment.
+
+<ul>
+<li>Supplying supplements to a village to reduce infant mortality, but some of the villagers could not receive the supplements.</li>
+</ul></li>
+<li>Moreover, there may be cases where subjects not assigned to treatment may receive the treatment.
+
+<ul>
+<li>Men who were not drafted to the Vietnam War volunteered.</li>
+</ul></li>
+<li>Subjects whose treatment <em>receipt</em> status differs from treatment <em>assignment</em> status are called <em>noncompliers</em>.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Potential outcomes</h2></hgroup><article  id="potential-outcomes">
+</article></slide><slide class=""><hgroup><h2>Intention-to-treat (ITT) and treatment effect</h2></hgroup><article  id="intention-to-treat-itt-and-treatment-effect">
 
 <ul>
-<li>The <em>potential outcome</em> is the outcome that could happen when an action was applied to a unit.</li>
-<li>For example, the potential outcome for me when I take Aspirin, denoted by \(Y^\ast(Aspirin)\), takes a value of either headache or no headache.</li>
-<li>The potential outcome for me when I do not take Aspirin, denoted by \(Y^\ast(No Aspirin)\), also takes a value of either headache or no headache.</li>
-<li>Suppose that the true potential outcomes are like: <footnote>Modified Table 1.1 of Imbens and Rubin (2015) </footnote></li>
+<li>This problem arises regardless of whether experimental or observational.</li>
+<li>If the treatment was randomly assigned, the average effect of <em>assignment</em> treatment can be estimated.</li>
+<li>However, if there are noncompliers, this can differ from the average effect of <em>receiving</em> treatment.</li>
+<li>The former is called <em>intention-to-treat (ITT)</em> effect and is distinguished from the latter.</li>
+<li>ITT effects are informative, but may not be robust to the changes in the compliance behaviors.</li>
+<li>In other situations, people’s compliance behavior can be different and hence the ITT may change even if the treatment effect is invariant.</li>
 </ul>
 
-<table class = 'rmdtable'>
-<tr class="header">
-<th align="left">Unit</th>
-<th align="left">Potential outcomes</th>
-<th align="left"></th>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">\(Y^\ast(Aspirin)\)</td>
-<td align="left">\(Y^\ast(No Aspirin)\)</td>
-</tr>
-<tr class="even">
-<td align="left">I</td>
-<td align="left">No Headache</td>
-<td align="left">Headache</td>
-</tr>
-</table>
-
-</article></slide><slide class=""><hgroup><h2>Causal effect</h2></hgroup><article  id="causal-effect">
+</article></slide><slide class=""><hgroup><h2>Potential treatment receipt status</h2></hgroup><article  id="potential-treatment-receipt-status">
 
 <ul>
-<li>The causal effect of taking the aspirin for me involves the comparison of two potential outcomes \(Y^\ast(Aspirin)\) and \(Y^\ast(No Aspirin)\).</li>
-<li>If \(Y^\ast(Aspirin)\) is No Headache and \(Y^\ast(NoAspirin)\) is Headache, the causal effect is labeled as the Improvement due to Aspirin.<footnote>Table 1.1 of Imbens and Rubin (2015) </footnote></li>
+<li>To describe this situation, we introduce variables representing treatment assignment and treatment receipt status.</li>
+<li>Treatment assignment status: \(Z_i\) takes value \(1\) if assigned and \(0\) otherwise.</li>
+<li>Treatment receipt status: \(D_i\) takes value \(1\) if received and \(0\) otherwise.</li>
+<li>The key is that individual treatment receipt status is a function of the individual’s treatment assignment status.
+
+<ul>
+<li>A subject may never take the treatment, or always take.</li>
+<li>A subject may take the treatment only when assigned treatment, or only when not assigned.</li>
+</ul></li>
+<li>This relation is described by the following potential outcome model: \[
+D_i = D_i^\ast(Z_i) =
+\begin{cases}
+D_i^\ast(0) &amp; \text{   if   } Z_i = 0\\
+D_i^\ast(1) &amp; \text{   if   } Z_i = 1.
+\end{cases} 
+\]</li>
 </ul>
 
-<table class = 'rmdtable'>
-<tr class="header">
-<th align="left">Unit</th>
-<th align="left">Potential outcomes</th>
-<th align="left"></th>
-<th align="left">Causal effect</th>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">\(Y^\ast(Aspirin)\)</td>
-<td align="left">\(Y^\ast(No Aspirin)\)</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">I</td>
-<td align="left">No Headache</td>
-<td align="left">Headache</td>
-<td align="left">Improvement due to Aspirin</td>
-</tr>
-</table>
-
-</article></slide><slide class=""><hgroup><h2>Possible causal effects</h2></hgroup><article  id="possible-causal-effects">
+</article></slide><slide class=""><hgroup><h2>Observed and missing treatment status</h2></hgroup><article  id="observed-and-missing-treatment-status">
 
 <ul>
-<li>The truth is either of the following scenarios but we do not know which is true:<footnote>Modified Table 1.3 of Imbens and Rubin (2015) </footnote></li>
+<li>We can observe \(D_i^\ast(Z_i)\), the treatment receipt status under the observed treatment assignment status.</li>
+<li>However, we never observe \(D_i^\ast(1 - Z_i)\), the treatment receipt status under the missing treatment assignment status.</li>
 </ul>
 
-<table class = 'rmdtable'>
-<tr class="header">
-<th align="left">Unit</th>
-<th align="left">Potential outcomes</th>
-<th align="left"></th>
-<th align="left">Causal effect</th>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">\(Y^\ast(Aspirin)\)</td>
-<td align="left">\(Y^\ast(No Aspirin)\)</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">1</td>
-<td align="left">No Headache</td>
-<td align="left">Headache</td>
-<td align="left">Improvement due to Aspirin</td>
-</tr>
-<tr class="odd">
-<td align="left">2</td>
-<td align="left">No Headache</td>
-<td align="left">No Headache</td>
-<td align="left">Headache gone regardless of Aspirin</td>
-</tr>
-<tr class="even">
-<td align="left">3</td>
-<td align="left">Headache</td>
-<td align="left">No Headache</td>
-<td align="left">Aspirin caused headache</td>
-</tr>
-<tr class="odd">
-<td align="left">4</td>
-<td align="left">Headache</td>
-<td align="left">Headache</td>
-<td align="left">No effect of Aspirin</td>
-</tr>
-</table>
-
-</article></slide><slide class=""><hgroup><h2>Observed outcomes</h2></hgroup><article  id="observed-outcomes">
+</article></slide><slide class=""><hgroup><h2>Extension of the potential outcome model</h2></hgroup><article  id="extension-of-the-potential-outcome-model">
 
 <ul>
-<li>Suppose that one of the potential outcomes of unit \(i\) is observed when a treatment is assigned to the unit.</li>
-<li>For example, if \(Aspirin\) is assigned, then \(Y_i = Y_i^\ast(Aspirin)\) is observed and if \(No Aspirin\) is assigned, then \(Y_i = Y_i^\ast(No Aspirin)\) is observed.</li>
-<li>\(Y_i\) is called the <em>observed outcome</em> of unit \(i\), which differs by the assignment to unit \(i\).</li>
+<li>The potential outcome is now a function of both treatment assignment and receipt status. \[
+Y_i = Y_i^\ast(Z_i, D_i).
+\]</li>
+<li>We observe: \[
+Y_i^\ast[Z_i, D_i^\ast(Z_i)] = Y_i^\ast[1, D_i^\ast(1)], Y_i^\ast[0, D_i^\ast(0)].
+\]</li>
+<li>However, we never observe: \[
+Y_i^\ast[Z_i, D_i^\ast(1 - Z_i)] = Y_i^\ast[1, D_i^\ast(0)], Y_i^\ast[0, D_i^\ast(1)].
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Random assignment of \(Z_i\)</h2></hgroup><article  id="random-assignment-of-z_i">
+
+<ul>
+<li>We still assume that the treatment assignment is random.</li>
+<li>This is true in randomized experiments.</li>
+<li>We have to justify this in observational studies.</li>
+<li><strong>Assumption: Random assignment of \(Z_i\)</strong> \[
+\begin{split}
+&amp;\mathbb{P}[Z_i = 1 | D_i^\ast(0), D_i^\ast(1), Y_i^\ast(0, 0), Y_i^\ast(0, 1), Y_i^\ast(1, 0), Y_i^\ast(1, 1)]\\
+&amp;= \mathbb{P}(Z_i = 1).
+\end{split}
+\]</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Notations</h2></hgroup><article  id="notations">
 
 <ul>
-<li>Units: \(i = 1, \cdots, N\).</li>
-<li>Binary treatment indicator: \(Z_i \in \{0, 1\}\).</li>
-<li>Potential outcomes: \(Y_i^\ast(0)\) and \(Y_i^\ast(1)\).</li>
-<li>Pre-treatment variables or covariates: \(W_i\).</li>
-<li>\(\mathbf{Y}^\ast(0)\): and \(\mathbf{Y}^\ast(1)\) be the \(N\)-component column vectors of potential outcomes with \(i\)th elements equal to \(Y_i^\ast(0)\) and \(Y_i^\ast(1)\).</li>
-<li>\(\mathbf{Z}\): \(N\)-component column vector with \(i\)th element equal to \(Z_i\).</li>
-<li>\(\mathbf{W}\): \(N \times K\) matrix of covariates with \(i\)th row equal to \(W_i\).</li>
+<li>The subsample sizes by treatment assignment status: \[
+N_0 \equiv \sum_{i = 1}^N (1 - Z_i), N_1 \equiv \sum_{i = 1}^N Z_i.
+\]</li>
+<li>The subsample sizes by treatment receipt status: \[
+N_c \equiv \sum_{i = 1}^N (1 - D_i), N_t \equiv \sum_{i = 1}^N D_i.
+\]</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Causal estimands</h2></hgroup><article  id="causal-estimands">
+</article></slide><slide class=""><hgroup><h2>Notations</h2></hgroup><article  id="notations-1">
 
 <ul>
-<li><p>The <em>unit-level causal effects</em>: \[
-Y_i^\ast(1) - Y_i^\ast(0), i = 1, \cdots, N.
+<li>The subsample sizes by both treatment assignment and receipt status: \[
+N_{0c} \equiv \sum_{i = 1}^N (1 - Z_i) \cdot (1 - D_i), N_{0t} \equiv \sum_{i = 1}^N (1 - Z_i) \cdot D_i.
+\] \[
+N_{1c} \equiv \sum_{i = 1}^N Z_i \cdot (1 - D_i), N_{1t} \equiv \sum_{i = 1}^N Z_i \cdot D_i.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Notations</h2></hgroup><article  id="notations-2">
+
+<ul>
+<li><p>The average outcomes by treatment assignment status: \[
+\overline{Y}_0 \equiv \frac{1}{N_0} \sum_{i = 1}^N (1 - Z_i) \cdot Y_i, \overline{Y}_1 \equiv \frac{1}{N_1} \sum_{i = 1}^N Z_i \cdot Y_i.
 \]</p></li>
-<li><p>The <em>average causal effect</em>: \[
-\tau_{fs} = \frac{1}{N} \sum_{i = 1}^N [Y_i^\ast(1) - Y_i^\ast(0)].
+<li><p>The average treatment receipt by treatment assignment status: \[
+\overline{D}_0 \equiv \frac{1}{N_0} \sum_{i = 1}^N (1 - Z_i) \cdot D_i, \overline{D}_1 \equiv \frac{1}{N_1} \sum_{i = 1}^N Z_i \cdot D_i.
 \]</p></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Causal estimands</h2></hgroup><article  id="causal-estimands-1">
+</article></slide><slide class=""><hgroup><h2>Notations</h2></hgroup><article  id="notations-3">
 
 <ul>
-<li>The <em>average causal effect conditional on the covariate</em>:</li>
+<li>The average outcomes by treatment receipt status: \[
+\overline{Y}_c \equiv \frac{1}{N_c} \sum_{i = 1}^N (1 - D_i) \cdot Y_i, \overline{Y}_t \equiv \frac{1}{N_t} \sum_{i = 1}^N D_i \cdot Y_i.
+\]</li>
 </ul>
 
-<p>\[
-\tau_{fs}(f) = \frac{1}{N(f)} \sum_{i: W_i = f} [Y_i^\ast(1) - Y_i^\ast(0)],
-\] where \(N(f) \equiv \#\{i = 1, \cdots, N: W_i = f\}\).</p>
+</article></slide><slide class=""><hgroup><h2>Notations</h2></hgroup><article  id="notations-4">
 
 <ul>
-<li>The <em>average causal effect for those who were exposed to it</em>:</li>
+<li>The average outcomes by both treatment assignment and receipt status: \[
+\overline{Y}_{0c} \equiv \frac{1}{N_{0c}} \sum_{i = 1}^N (1 - Z_i) \cdot (1 - D_i) \cdot Y_i.
+\] \[
+\overline{Y}_{0t} \equiv \frac{1}{N_{0t}} \sum_{i = 1}^N (1 - Z_i) \cdot D_i \cdot Y_i.
+\] \[
+\overline{Y}_{1c} \equiv \frac{1}{N_{1c}} \sum_{i = 1}^N Z_i \cdot (1 - D_i) \cdot Y_i.
+\] \[
+\overline{Y}_{1t} \equiv \frac{1}{N_{1t}} \sum_{i = 1}^N Z_i \cdot D_i \cdot Y_i.
+\]</li>
 </ul>
 
-<p>\[
-\tau_{fs, t} = \frac{1}{N_1} \sum_{i: Z_i = 1} [Y_i^\ast(1) - Y_i^\ast(0)],
-\] where \(N_1 \equiv \sum_{i = 1}^N Z_i\).</p>
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>One-sided noncompliers</h2></hgroup><article  id="one-sided-noncompliers">
 
-</article></slide><slide class=""><hgroup><h2>Causal estimands</h2></hgroup><article  id="causal-estimands-2">
+</article></slide><slide class=""><hgroup><h2>One-sided noncompliers</h2></hgroup><article  id="one-sided-noncompliers-1">
 
 <ul>
-<li>The <em>average causal effect for positive outcomes</em>: \[
-\tau_{fs, pos} = \frac{1}{N_{pos}} \sum_{i: Y_i^\ast(0) &gt; 0, Y_i^\ast(1) &gt; 0} [Y_i^\ast(1) - Y_i^\ast(0)],
-\] where \(N_{pos} \equiv \#\{i = 1, \cdots, N: Y_i^\ast(0) &gt; 0, Y_i^\ast(1) &gt; 0\}\).
-
-<ul>
-<li>e.g. effects on wages for employed workers.</li>
-<li>The definition depends on the potential outcomes but not on observed outcomes.</li>
-</ul></li>
-<li>The general function of potential outcomes: \[
-\tau = \tau(\mathbf{Y}^\ast(0), \mathbf{Y}^\ast(1), \mathbf{W}, \mathbf{Z}),
-\]
-
-<ul>
-<li>where \(\tau\) is a row-exchangeable function.</li>
-</ul></li>
+<li>Assume that subject never receives treatment unless assigned treatment: \[
+D_i^\ast(0) = 0, \forall i.
+\]</li>
+<li>This holds in most of experiment: subjects will not take new supplements if not supplied.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Causal inference as missing data problem</h2></hgroup><article  id="causal-inference-as-missing-data-problem">
+</article></slide><slide class=""><hgroup><h2>Compliance status</h2></hgroup><article  id="compliance-status">
+
+<ul>
+<li><p>Subjects are divided into latent compliance status according to their value of \(D_i^\ast(z)\). \[
+G_i \equiv 
+\begin{cases}
+\text{co if   } D_i^\ast(1) = 1 \\
+\text{nc if   } D_i^\ast(1) = 0.
+\end{cases}
+\]</p></li>
+<li><p>Underlying compliance status:<footnote> Table 23.2 of Imbens and Rubin (2015) </footnote></p></li>
+</ul>
 
 <table class = 'rmdtable'>
 <tr class="header">
-<th align="left">Unit</th>
-<th align="left">Potential outcomes</th>
 <th align="left"></th>
-<th align="left">Causal Effect</th>
+<th align="left">\(Z_i = 0\)</th>
+<th align="left">\(Z_i = 1\)</th>
 </tr>
 <tr class="odd">
-<td align="left"></td>
-<td align="left">\(Y_i^\ast(0)\)</td>
-<td align="left">\(Y_i^\ast(1)\)</td>
-<td align="left">\(Y_i^\ast(1) - Y_i^\ast(0)\)</td>
+<td align="left">\(D_i = 0\)</td>
+<td align="left">nc or co</td>
+<td align="left">nc</td>
 </tr>
 <tr class="even">
-<td align="left">Patient 1</td>
-<td align="left">1</td>
-<td align="left">7</td>
-<td align="left">6</td>
-</tr>
-<tr class="odd">
-<td align="left">Patient 2</td>
-<td align="left">6</td>
-<td align="left">5</td>
-<td align="left">-1</td>
-</tr>
-<tr class="even">
-<td align="left">Patient 3</td>
-<td align="left">1</td>
-<td align="left">5</td>
-<td align="left">4</td>
-</tr>
-<tr class="odd">
-<td align="left">Patient 4</td>
-<td align="left">8</td>
-<td align="left">7</td>
-<td align="left">-1</td>
-</tr>
-<tr class="even">
-<td align="left">Average</td>
-<td align="left">4</td>
-<td align="left">6</td>
-<td align="left">2</td>
+<td align="left">\(D_i = 1\)</td>
+<td align="left">-</td>
+<td align="left">co</td>
 </tr>
 </table>
 
-<ul>
-<li>The average causal effect of this population is 2.<footnote>Table 1.4 of Imbens and Rubin (2015) </footnote></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Observed outcomes</h2></hgroup><article  id="observed-outcomes-1">
+</article></slide><slide class=""><hgroup><h2>Compliance status share</h2></hgroup><article  id="compliance-status-share">
 
 <ul>
-<li><p>The <em>observed</em> outcome of unit \(i\) is: \[
-Y_i^{obs} = Y_i^\ast(Z_i) = 
-\begin{cases}
-Y_i^\ast(0) &amp; \text{   if   } Z_i = 0\\
-Y_i^\ast(1) &amp; \text{   if   } Z_i = 1.
-\end{cases}
-\]</p></li>
-<li><p>The <em>missing</em> potential outcome of unit \(i\) is: \[
-Y_i^{mis} = Y_i^\ast(1 - Z_i) = 
-\begin{cases}
-Y_i^\ast(1) &amp; \text{   if   } Z_i = 0\\
-Y_i^\ast(0) &amp; \text{   if   } Z_i = 1.
-\end{cases}
-\]</p></li>
+<li>The subsample sizes of compliers and noncompliers \[
+N_{co} \equiv \sum_{i = 1}^N 1_{G_i = co}, N_{nc} \equiv \sum_{i = 1}^N 1_{G_i = nc}.
+\]</li>
+<li>The sample fractions of compliers and noncompliers \[
+\pi_{co} \equiv \frac{N_{co}}{N}, \pi_{nc} \equiv \frac{N_{nc}}{N} = 1 - \pi_{co}.
+\]</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Observations from the previous treatment</h2></hgroup><article  id="observations-from-the-previous-treatment">
+</article></slide><slide class=""><hgroup><h2>Estimate ITT effect for the receipt of treatment</h2></hgroup><article  id="estimate-itt-effect-for-the-receipt-of-treatment">
+
+<ul>
+<li>The ITT for the receipt of treatment: \[
+ITT_D \equiv \frac{1}{N}\sum_{i = 1}^N[D_i^\ast(1) - D_i^\ast(0)],
+\] can be estimated unbiasedly by the average difference in treatment status: \[
+\widehat{ITT}_D \equiv \overline{D}_1 - \overline{D}_0 = \overline{D}_1.
+\]</li>
+<li>The standard error is also estimated by: \[
+\widehat{\mathbb{V}}(\widehat{ITT}_D) \equiv \frac{s_{D, 0}^2}{N_0} + \frac{s_{D, 1}^2}{N_1}.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Estimate ITT effect for the outcome</h2></hgroup><article  id="estimate-itt-effect-for-the-outcome">
+
+<ul>
+<li>The ITT for the outcome: \[
+ITT_Y \equiv \frac{1}{N}\sum_{i = 1}^N\{Y_i^\ast[1, D_i^\ast(1)] - Y_i^\ast[0, D_i^\ast(0)]\},
+\] can be estimated unbiasedly by the average difference in treatment status: \[
+\widehat{ITT}_Y \equiv \overline{Y}_1 - \overline{Y}_0.
+\]</li>
+<li>The standard error is also estimated by: \[
+\widehat{\mathbb{V}}(\widehat{ITT}_Y) \equiv \frac{s_{Y, 0}^2}{N_0} + \frac{s_{Y, 1}^2}{N_1}.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Decomposing \(ITT_Y\)</h2></hgroup><article  id="decomposing-itt_y">
+
+<ul>
+<li>Using the ITT effect for the outcome by compliance status: \[
+ITT_{Y, co} \equiv \frac{1}{N_{co}} \sum_{i: G_i = co}\{Y_i^\ast[1, D_i^\ast(1)] - Y_i^\ast[0, D_i^\ast(0)]\}, 
+\] and: \[
+ITT_{Y, nc} \equiv \frac{1}{N_{nc}} \sum_{i: G_i = nc}\{Y_i^\ast[1, D_i^\ast(1)] - Y_i^\ast[0, D_i^\ast(0)]\},
+\] we can decompose \(ITT_Y\) as: \[
+ITT_Y = ITT_{Y, co} \cdot ITT_D + ITT_{Y, nc} \cdot (1 - ITT_D).
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Unidentification of \(ITT_{Y, co}\) and \(ITT_{Y, nc}\)</h2></hgroup><article  id="unidentification-of-itt_y-co-and-itt_y-nc">
+
+<ul>
+<li>We cannot identify \(ITT_{Y, co}\) and \(ITT_{Y, nc}\) because we do not know the compliance status of each subject and hence we cannot condition on compliance status.</li>
+<li>\(ITT_{Y, nc}\) is not informative, because they never receive the treatment, irrespective of the assignment.</li>
+<li>\(ITT_{Y, co}\) is informative, because this compares the outcome when the treatment is received and not.</li>
+<li>Then, under what kind of additional assumptions, can we identify \(ITT_{Y, co}\)?</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Latent unconfoundedness</h2></hgroup><article  id="latent-unconfoundedness">
+
+<ul>
+<li>Randomized experiment ensures that the unconfoundedness of \(Z_i\), but not \(D_i\)</li>
+<li>However, randomized experiment at least ensures the <em>latent</em> unconfoundedness of \(D_i\).</li>
+<li><strong>Lemma: Latent unconfoundedness of \(D_i\)</strong>
+
+<ul>
+<li>The random assignment of \(Z_i\) implies for \(g \in G\): \[
+\begin{split}
+&amp;\mathbb{P}[D_i = 1 | Y_i^\ast(0, 0), Y_i^\ast(0, 1), Y_i^\ast(1, 0), Y_i^\ast(1, 1), G_i = g]\\
+&amp;= \mathbb{P}(D_i = 1 | G_i = g).
+\end{split}
+\]</li>
+</ul></li>
+<li>For \(g = nc\), \(D_i\) is always \(0\). Therefore, the equation trivially holds</li>
+<li>For \(g = co\), \(D_i = Z_i\). Therefore, the random assignment of \(Z_i\) implies the unconfoundedness of \(D_i\) for compliers.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Exclusion restriction for noncompliers</h2></hgroup><article  id="exclusion-restriction-for-noncompliers">
+
+<ul>
+<li><strong>Assumption : Exclusion restriction for noncompliers</strong>
+
+<ul>
+<li>For all noncompliers: \[
+Y_i^\ast(0, 0) = Y_i^\ast(1, 0).
+\]</li>
+</ul></li>
+<li>This rules out that an effect of the assignment on the outcome for noncompliers.</li>
+<li>The random assignment of \(Z_i\) <em>does not</em> justify this assumption.</li>
+<li>This is a <em>substantive</em> assumption to be justified by the contextual knowledge.</li>
+<li>For example, the double blinding makes subjects unaware of the treatment assignment, and hence <em>may</em> justify this assumption if nicely implemented.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Identifying \(ITT_{Y, co}\)</h2></hgroup><article  id="identifying-itt_y-co">
+
+<ul>
+<li>The exclusion restriction for noncompliers implies: \[
+ITT_{Y, nc} \equiv \frac{1}{N_{nc}} \sum_{i: G_i = nc}\{Y_i^\ast[1, D_i^\ast(1)] - Y_i^\ast[0, D_i^\ast(0)]\} = 0.
+\]</li>
+<li>Therefore: \[
+ITT_Y = ITT_{Y, co} \cdot ITT_D + ITT_{Y, nc} \cdot (1 - ITT_D) = ITT_{Y, co} \cdot ITT_D,
+\] and so: \[
+ITT_{Y, co} = \frac{ITT_Y}{ITT_D}.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Exclusion restriction for compliers</h2></hgroup><article  id="exclusion-restriction-for-compliers">
+
+<ul>
+<li>The exclusion restriction for noncompliers is necessary for identifying \(ITT_{Y, co}\).</li>
+<li>The following assumption of exclusion restriction for compliers is not necessary, but only changes the interpretation of \(ITT_{Y, co}\):</li>
+<li><strong>Assumption: Exclusion restriction for compliers</strong>:
+
+<ul>
+<li>For all compliers: \[
+Y_i^\ast(0, 0) = Y_i^\ast(1, 0), Y_i^\ast(0, 1) = Y_i^\ast(1, 1).
+\]</li>
+</ul></li>
+<li>If this assumption holds: \[
+ITT_{Y, co} = \frac{1}{N_{co}} \sum_{i: G_i = co}\{Y_i^*(1) - Y_i^*(0)\},
+\] which we call the <strong>local average treatment effect (LATE)</strong> \(\tau_{late}\).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Moment-based estimator for \(\tau_{late}\)</h2></hgroup><article  id="moment-based-estimator-for-tau_late">
+
+<ul>
+<li>Because we have \(\widehat{ITT}_Y\) and \(\widehat{ITT}_D\), we can estimate \(\tau_{late}\) by: \[
+\widehat{ITT}_{late} \equiv \frac{\widehat{ITT}_Y}{\widehat{ITT}_D}.
+\]</li>
+<li>The sampling variance is: \[
+\begin{split}
+\mathbb{V}(\widehat{ITT}_{late}) &amp;= \frac{1}{ITT_D^2} \cdot \mathbb{V}(\widehat{ITT}_Y) + \frac{ITT_Y^2}{ITT_D^4} \cdot \mathbb{V}(\widehat{ITT}_D) \\
+&amp;- 2 \cdot \frac{ITT_Y}{ITT_D^3} \cdot \mathbb{C}(\widehat{ITT}_Y, \widehat{ITT}_D).
+\end{split}
+\]</li>
+<li>We can replace with the sample analogues. However, it can by a poor approximation when \(ITT_D\) is close to 0.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Connection to the instrumental variable (IV) estimator</h2></hgroup><article  id="connection-to-the-instrumental-variable-iv-estimator">
+
+<ul>
+<li>Take the infinite super-population perspective.</li>
+<li>Define: \[
+\tau_{late} = \mathbb{E}[Y_i^\ast(1) - Y_i^\ast(0)| G_i = co],
+\] \[
+\alpha \equiv \mathbb{E}[Y_i^\ast(0)], 
+\] \[
+\nu_i \equiv Y_i^\ast(1) - Y_i^\ast(0) - \tau_{late}, 
+\] \[
+\epsilon_i \equiv Y_i^\ast(0) - \alpha.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Structural equation</h2></hgroup><article  id="structural-equation">
+
+<ul>
+<li>Then, we have a structural equation: \[
+Y_i^\ast(w) = \alpha + \tau_{late} \cdot w + \epsilon_i + w \cdot \nu_i.
+\]</li>
+<li>Then, for observations, we have: \[
+Y_i = Y_i^\ast(D_i) = \alpha + \tau_{late} \cdot D_i + \epsilon_i + D_i \cdot \nu_i.
+\]</li>
+<li>The OLS estimator does not consistently estimate \(\tau_{late}\), because \(\epsilon_i + D_i \cdot \nu_i\) is potentially correlated with \(D_i\).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Conditional mean zero</h2></hgroup><article  id="conditional-mean-zero">
+
+<ul>
+<li>Because of the random assignment of \(Z_i\), we have: \[
+\mathbb{E}[\epsilon_i|Z_i] = \mathbb{E}[Y_i^\ast(0)|Z_i] - \mathbb{E}[Y_i^\ast(0)] = \mathbb{E}[Y_i^\ast(0)] - \mathbb{E}[Y_i^\ast(0)] = 0.
+\]</li>
+<li>The one-sided compliance implies: \[
+\mathbb{E}[D_i \cdot \nu_i| Z_i = 0] = \mathbb{E}[0 \cdot \nu_i| Z_i = 0] = 0.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Conditional mean zero</h2></hgroup><article  id="conditional-mean-zero-1">
+
+<ul>
+<li>Moreover, the one-sided noncompliers and the random assignment of \(Z_i\) implies: \[
+\begin{split}
+&amp;\mathbb{E}[D_i \cdot \nu_i| Z_i = 1]\\
+&amp;= \mathbb{E}[0 \cdot \nu_i | Z_i = 1, D_i = 0] \mathbb{P}(D_i = 0| Z_i = 1)\\
+&amp;+ \mathbb{E}[1 \cdot \nu_i | Z_i = 1, D_i = 1] \mathbb{P}(D_i = 1 | Z_i = 1)\\
+&amp;= \mathbb{E}[\nu_i | Z_i = 1, D_i = 1, G_i = co] \pi_{co}\\
+&amp;= \mathbb{E}[Y_i^\ast(1) - Y_i^\ast(0) - \tau_{late} | Z_i = 1, G_i = co] \pi_{co}\\
+&amp;= \mathbb{E}[Y_i^\ast(1) - Y_i^\ast(0) - \tau_{late} | G_i = co] \pi_{co}\\
+&amp;= 0.
+\end{split}
+\]</li>
+<li>Therefore, we have the conditional mean zero property: \[
+\mathbb{E}[\epsilon_i + D_i \cdot \nu_i| Z_i] = 0.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Reduced-form equation</h2></hgroup><article  id="reduced-form-equation">
+
+<ul>
+<li>We can rewrite the structural equation as: \[
+\begin{split}
+Y_i 
+&amp;= \alpha + \tau_{late} \cdot \mathbb{E}[D_i|Z_i] - \tau_{late} \cdot \mathbb{E}[D_i|Z_i] + \tau_{late} \cdot D_i\\
+&amp;+ \epsilon_i +  D_i \cdot \nu_i\\
+&amp;= \alpha + \tau_{late} \cdot \mathbb{E}[D_i|Z_i] + \eta_i \\
+&amp;= \alpha + \tau_{late} \cdot \{\pi_0 + \pi_1 \cdot Z_i \} + \eta_i,\\
+&amp;= \alpha + \tau_{late} \cdot \{\pi_0 + \pi_1 \cdot Z_i \} + \eta_i,
+\end{split}
+\] where: \[
+\pi_0 \equiv \mathbb{E}[D_i|Z_i = 0] = 0,
+\] \[
+\pi_1 \equiv \mathbb{E}[D_i|Z_i = 1] - \mathbb{E}[D_i|Z_i = 0] = \mathbb{E}[D_i|Z_i = 1] = \pi_{co}.
+\] under the one-sided noncompliers.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Reduced-form equation</h2></hgroup><article  id="reduced-form-equation-1">
+
+<ul>
+<li>Therefore, we have the reduced-form equation: \[
+Y_i = \alpha + \gamma \cdot Z_i + \eta_i, \gamma \equiv \pi_{co} \cdot \tau_{late}.
+\]</li>
+<li>We know: \[
+\hat{\gamma}_{ols} = \overline{Y}_1 - \overline{Y}_0 = \widehat{ITT}_Y.
+\]</li>
+<li>Therefore, the instrumental variable estimator for \(\tau_{late}\), which is \(\hat{\gamma}_{ols}/\hat{\pi}_{co}\), is numerically the same as \(\widehat{ITT}_{Y, co}\).</li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Two-sided noncompliers</h2></hgroup><article  id="two-sided-noncompliers">
+
+</article></slide><slide class=""><hgroup><h2>Generalize compliance behaviors</h2></hgroup><article  id="generalize-compliance-behaviors">
+
+<ul>
+<li>In experiments, we may be able to ensure that subjects who are not assigned treatment do not receive treatment.</li>
+<li>However, especially in observational studies, subjects may voluntarily take treatment, even if assigned treatment.</li>
+<li>In such a situation, we need to generalize the compliance status.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Compliance status</h2></hgroup><article  id="compliance-status-1">
+
+<ul>
+<li>We consider 4 compliance status: Always takers, never takers, compliers, and defiers. \[
+G_i =
+\begin{cases}
+nt &amp;\text{   if   } D_i^\ast(0) = 0, D_i^\ast(1) = 0,\\
+co &amp;\text{   if   } D_i^\ast(0) = 0, D_i^\ast(1) = 1,\\
+df &amp;\text{   if   } D_i^\ast(0) = 1, D_i^\ast(1) = 0,\\
+at &amp;\text{   if   } D_i^\ast(0) = 1, D_i^\ast(1) = 1.
+\end{cases}
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Underlying compliance status</h2></hgroup><article  id="underlying-compliance-status">
+
+<ul>
+<li>There are two underlying compliance status for each pair of \(Z_i\) and \(D_i\):<footnote> Table 24.3 of Imbens and Rubin (2015) </footnote></li>
+</ul>
 
 <table class = 'rmdtable'>
 <tr class="header">
-<th align="left">Unit</th>
-<th align="left">Treatment</th>
-<th align="left">Observed outcome</th>
+<th align="left"></th>
+<th align="left">\(Z_i = 0\)</th>
+<th align="left">\(Z_i = 1\)</th>
 </tr>
 <tr class="odd">
-<td align="left">Patient 1</td>
-<td align="left">1</td>
-<td align="left">7</td>
+<td align="left">\(D_i = 0\)</td>
+<td align="left">nt/co</td>
+<td align="left">nt/df</td>
 </tr>
 <tr class="even">
-<td align="left">Patient 2</td>
-<td align="left">0</td>
-<td align="left">6</td>
-</tr>
-<tr class="odd">
-<td align="left">Patient 3</td>
-<td align="left">1</td>
-<td align="left">5</td>
-</tr>
-<tr class="even">
-<td align="left">Patient 4</td>
-<td align="left">0</td>
-<td align="left">8</td>
+<td align="left">\(D_i = 1\)</td>
+<td align="left">at/df</td>
+<td align="left">at/co</td>
 </tr>
 </table>
 
+</article></slide><slide class=""><hgroup><h2>ITT effects</h2></hgroup><article  id="itt-effects">
+
 <ul>
-<li>The average outcomes are 6 for treated and 7 for not treated.<footnote>Table 1.5 of Imbens and Rubin (2015) </footnote></li>
-<li>The simple difference means that the treatment has the causal effect of -1, whereas the true average causal effect is 2.</li>
-<li>No valid conclusion can be made without knowing the <em>treatment assignment mechanism</em> to correct the missing data problem.</li>
+<li>The ITT analysis is unchanged with the two-sided noncompliers.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Fundamental problem of causal inference</h2></hgroup><article  id="fundamental-problem-of-causal-inference">
+</article></slide><slide class=""><hgroup><h2>Decomposing \(ITT_Y\)</h2></hgroup><article  id="decomposing-itt_y-1">
 
 <ul>
-<li>The definition depends on the potential outcomes, but not on which outcome is actually observed.
-
-<ul>
-<li>For example, I take Aspirin and feel no headache can be either of Improvement due to Aspirin and Headache gone regardless of Aspirin, because the headache could have gone without taking Aspirin.</li>
-</ul></li>
-<li>The definition is based on the comparison of potential outcomes of the same unit.
-
-<ul>
-<li>For example, I take Aspirin and feel no headache and you do not take Aspirin and feel headache does not mean that Aspirin improved my headache.</li>
-</ul></li>
-<li>The <em>individual causal effect</em> is <em>well-defined</em> but <em>never estimated</em> because at most one of the potential outcomes can be realized and observed for each unit.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>SUTVA</h2></hgroup><article  id="sutva">
-
-<ul>
-<li><p>The previous potential outcome model presumes the following:</p></li>
-<li><p><strong>Assumption: SUTVA (Stable unit treatment value assumption)</strong>:</p>
-
-<ol>
-<li>(no spillover, no interference) The potential outcomes for any unit do not vary with the treatments assigned to other units, and;</li>
-<li>(consistency, no multiple version of treatment) The observed outcome is uniquely determined by the potential outcome evaluated at the assignment to the unit.</li>
-</ol></li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>A Classification of Assignment Mechanisms</h2></hgroup><article  id="a-classification-of-assignment-mechanisms">
-
-</article></slide><slide class=""><hgroup><h2>Assignment mechanism</h2></hgroup><article  id="assignment-mechanism">
-
-<ul>
-<li><p>The <em>assignment mechanism</em> is a function that assigns probabilities to all \(2^N\) possible values for the \(N\)-vector of assignments \(\mathbf{Z}\), given the \(N\)-vectors of potential outcomes \(\mathbf{Y}^\ast(0)\) and \(\mathbf{Y}^\ast(1)\), and given \(N \times K\) matrix of covariates \(\mathbf{W}\).</p></li>
-<li><p><strong>Definition: Assignment Mechanism</strong>:</p>
-
-<ul>
-<li>Given a population of \(N\) units, the assignment mechanism is a row-exchangeable function \(\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]\), taking on values in \([0, 1]\), satisfying: \[
-  \sum_{\mathbf{Z} \in \{0, 1\}^N} \mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = 1,
-  \] for all \(\mathbf{W}\), \(\mathbf{Y}^\ast(0)\), and \(\mathbf{Y}^\ast(1)\).</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Remarks on the assignment mechanism</h2></hgroup><article  id="remarks-on-the-assignment-mechanism">
-
-<ul>
-<li>In general, dependence of the assignment on the potential outcomes is not ruled out.</li>
-<li>The dependence of the assignment on the covariate, assignment, and the potential outcomes of other units does not contradict with SUTVA, because SUTVA is about the definition of the potential outcomes.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Unit assignment probability</h2></hgroup><article  id="unit-assignment-probability">
-
-<ul>
-<li>Assignment mechanism is a joint probability of assignments for the entire population.</li>
-<li>We can derive the unit assignment probability from the assignment mechanism:</li>
-<li><strong>Definition: Unit Assignment Probability</strong>: \[
-  p_i(\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)) = \sum_{\mathbf{Z}: Z_i = 1} \mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]
-  \]</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Finite population propensity score</h2></hgroup><article  id="finite-population-propensity-score">
-
-<ul>
-<li>The average unit assignment probability for units with \(W_i = x\) is called the <em>propensity score</em> at \(x\).</li>
-<li><strong>Definition: Finite Population Propensity Score</strong>: \[
-  e(x) = \frac{1}{N(x)} \sum_{i: W_i = x} p_i(\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)),
-  \] where \(N(x) = \#\{i = 1, \cdots, N| W_i = x\}\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Restrictions on the assignment mechanism</h2></hgroup><article  id="restrictions-on-the-assignment-mechanism">
-
-<ul>
-<li><p>To classify the various types of assignment mechanisms, we present three general properties that assignment mechanisms may satisfy.</p>
-
-<ol>
-<li>Individualistic assignment.</li>
-<li>Probabilistic assignment.</li>
-<li>Unconfounded assignment.</li>
-</ol></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Individualistic assignment</h2></hgroup><article  id="individualistic-assignment">
-
-<ul>
-<li>The first restriction limits the dependence of the treatment assignment for unit \(i\) on the outcomes and assignments for other units.</li>
-<li><strong>Definition: Individualistic Assignment</strong>:
-
-<ul>
-<li>An assignment mechanism \(\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]\) is <em>individualistic</em> if, for some functions \(q(\cdot) \in [0, 1]\): \[
-p_i(\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)) = q(W_i, Y_i^\ast(0), Y_i^\ast(1))
-\]</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Probabilistic assignment</h2></hgroup><article  id="probabilistic-assignment">
-
-<ul>
-<li>The second restriction requires that every unit has positive probability of being assigned to treatment level 0 and to treatment level 1.</li>
-<li><strong>Definition: Probabilistic Assignment</strong>:
-
-<ul>
-<li>An assignment mechanism \(\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]\) is <em>probabilistic</em> if: \[
-0 &lt; p_i(\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)) &lt; 1, \forall \mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0), \forall i.
-\]</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Unconfounded assignment</h2></hgroup><article  id="unconfounded-assignment">
-
-<ul>
-<li>The third condition states that the assignment does not depend on the potential outcome.</li>
-<li><strong>Definition: Unconfounded Assignment</strong>:
-
-<ul>
-<li>An assignment mechanism \(\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)]\) is <em>unconfounded</em> if: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = \mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1)&#39;, \mathbf{Y}^\ast(0)&#39;]
-\] for all \(\mathbf{Z}, \mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0), \mathbf{Y}^\ast(1)&#39;, \mathbf{Y}^\ast(0)&#39;\).</li>
-</ul></li>
-<li>If an assignment mechanism is unconfounded, we can simplify the assignment to \(\mathbb{P}(\mathbf{Z}|\mathbf{W})\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Individualistic, probabilistic, and unconfounded assignment</h2></hgroup><article  id="individualistic-probabilistic-and-unconfounded-assignment">
-
-<ul>
-<li>The assignment mechanism is written as: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = \mathbb{P}(\mathbf{Z}|\mathbf{W}) = c \cdot \prod_{i = 1}^N q(W_i)^{Z_i} \cdot [1 - q(W_i)]^{1 - Z_i},
-\] and the propensity score is the unit-level assignment probability: \[
-e(x) = q(x).
-\]</li>
-<li>Given individualistic assignment, the combination of probabilistic and unconfounded assignment is referred to as <em>strongly ignorable treatment assignment</em>.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Randomized experiment</h2></hgroup><article  id="randomized-experiment">
-
-<ul>
-<li><strong>Definition: Randomized Experiment</strong>:
-
-<ul>
-<li>A <em>randomized experiment</em> is an assignment mechanism that:
-
-<ul>
-<li>is probabilistic, and</li>
-<li>has a known functional form that is controlled by the researcher.</li>
-</ul></li>
-</ul></li>
-<li><strong>Definition: Classical Randomized Experiment</strong>:
-
-<ul>
-<li>A <em>classical randomized experiment</em> is a randomized experiment with an assignment mechanism that is:
-
-<ul>
-<li>individualistic, and</li>
-<li>unconfounded.</li>
-</ul></li>
-</ul></li>
-<li><strong>Definition: Natural Experiment</strong>:
-
-<ul>
-<li>A randomized experiment in which the assignment mechanism is designed by someone different from the analyst.</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Completely randomized experiments</h2></hgroup><article  id="completely-randomized-experiments">
-
-<ul>
-<li>A fixed number of units, say \(N_1\), is drawn at random from the population of \(N\) units to receive the active treatment, with the remaining \(N_0 = N - N_1\) assigned to the control group.</li>
-<li>The assignment probability: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = 
-\begin{pmatrix}
-N\\
-N_1
-\end{pmatrix}^{-1},
-\] for all \(\mathbf{Z}\) such that \(\sum_{i = 1}^N Z_i = N_1\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Stratified randomized experiments</h2></hgroup><article  id="stratified-randomized-experiments">
-
-<ul>
-<li>First partition the population on the basis of covariate values into \(G\) strata, i.e. if the covariate space is \(\mathbb{X}\), partition \(\mathbb{X}\) into \(\mathbb{X}_1, \cdots, \mathbb{X}_G\), so that \(\bigcup_g \mathbb{X}_g = \mathbb{X}\) and \(\mathbb{X}_g \cap \mathbb{X}_{g&#39;} = \emptyset\) if \(g \neq g&#39;\).</li>
-<li>Let \(G_{ig} = 1_{W_i \in \mathbf{W}_g}\) and \(N_g\) be the number of units in stratum \(g\).</li>
-<li>Fix the number of treated units in each stratum as \(N_{tg}\) such that \(\sum_g N_{tg} = N_1\).</li>
-<li>The assignment probability is: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = \prod_{g = 1}^G 
-\begin{pmatrix}
-N_g\\
-N_{tg}
-\end{pmatrix}^{-1},
-\] for all \(\mathbf{Z}\) such that \(\sum_{i = 1}^N Z_i \cdot G_{ig} = N_{tg}\) for all \(g\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Paired randomized experiments</h2></hgroup><article  id="paired-randomized-experiments">
-
-<ul>
-<li>An extreme case of stratification where each stratum contains exactly one treated unit and exactly one control unit.</li>
-<li>There are \(G = N/2\) strata and \(N_g = 2\) and \(N_{tg} = 1\) for all \(g\).</li>
-<li>The assignment probability is: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = \bigg(\frac{1}{2}\bigg)^{\frac{N}{2}},
-\] for all \(\mathbf{Z}\) such that \(\sum_{i = 1}^N Z_i \cdot G_{ig} = 1\) for all \(g\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Clustered randomized experiments</h2></hgroup><article  id="clustered-randomized-experiments">
-
-<ul>
-<li>Partition the covariate space into clusters and treatments are assigned randomly to entire clusters, with all units within a cluster receiving the same level of the treatment.</li>
-<li>This design may be motivated by concerns that there are interactions between units.</li>
-<li>\(G_t\) out of \(G\) clusters are selected randomly to be assigned to the treatment group.</li>
-<li>Let \(\overline{W}_g = \sum_{i: G_{ig} = 1} Z_i / N_g\) be the average value of \(Z_i\).</li>
-<li>The assignment probability is: \[
-\mathbb{P}[\mathbf{Z}|\mathbf{W}, \mathbf{Y}^\ast(1), \mathbf{Y}^\ast(0)] = 
-\begin{pmatrix}
-G \\
-G_t
-\end{pmatrix}^{-1},
-\] for all \(\mathbf{Z}\) such that if \(W_{ig} = W_{i&#39;g} = 1\) and \(\sum_g \overline{W}_g = G_t\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Observational studies: Regular assignment mechanisms with compliance</h2></hgroup><article  id="observational-studies-regular-assignment-mechanisms-with-compliance">
-
-<ul>
-<li><strong>Definition: Observational Study</strong>:
-
-<ul>
-<li>An assignment mechanism corresponds to an observational study if the functional form of the assignment mechanism is unknown.</li>
-</ul></li>
-<li><strong>Definition: Regular Assignment Mechanism</strong>:
-
-<ul>
-<li>An assignment mechanism is <em>regular</em> if:
-
-<ul>
-<li>the assignment mechanism is individualistic,</li>
-<li>the assignment mechanism is probabilistic, and</li>
-<li>the assignment mechanism is unconfounded.</li>
-</ul></li>
-</ul></li>
-<li><strong>Definition: Quasi-Experiment</strong>:
-
-<ul>
-<li>An observational study in which some of the features of the regular assignment mechanism can be justified based on the institutional knowledge.</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Sampling-based and assignment-based uncertainty</h2></hgroup><article  id="sampling-based-and-assignment-based-uncertainty">
-
-</article></slide><slide class=""><hgroup><h2>Definition</h2></hgroup><article  id="definition">
-
-<ul>
-<li>Two types of uncertainty affects the inference.</li>
-<li>The <em>sampling-based uncertainty</em> refers to the randomness due to the sampling from the population.
-
-<ul>
-<li>The sample is finite. The population may be infinite or finite.</li>
-</ul></li>
-<li>The <em>assignment-based uncertainty</em> refers to the randomness due to the assignment over the sample.
-
-<ul>
-<li>Sometimes called design-based or randomization-based uncertainty.</li>
-</ul></li>
-<li>Make sure which of (or both of) the uncertainty matters when considering inference.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example">
-
-<div style="display: flex; justify-content: center;">
-<table>
-
-<tr style="background-color: #EFEFEF;">
-
-<th style="padding: 1em; font-family: sans-serif;">
-
-\(i\)
-
-</th>
-
-<th style="padding: 1em; font-family: sans-serif;">
-
-\(O_i\)
-
-</th>
-
-<th style="padding: 1em; font-family: sans-serif;">
-
-\(Z_i\)
-
-</th>
-
-<th colspan="2" style="font-family: sans-serif; background-color: #EFEFEF;">
-
-\(Y_i^\ast(\cdot)\)
-
-</th>
-
-</tr>
-
-<tr>
-
-<td style="padding: 3em;">
-
-</td>
-
-<td style="padding: 3em;">
-
-</td>
-
-<td style="padding: 3em;">
-
-</td>
-
-<td style="padding: 3em;">
-
-0
-
-</td>
-
-<td style="padding: 3em;">
-
-1
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-350
-
-</td>
-
-<td>
-
-500
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-2
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-700
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-3
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-800
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-4
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-700
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-5
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-650
-
-</td>
-
-<td>
-
-780
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-6
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td>
-
-450
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-7
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-250
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-400
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-8
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-850
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-9
-
-</td>
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-760
-
-</td>
-
-<td style="text-decoration: underline; font-family: sans-serif;">
-
-820
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-10
-
-</td>
-
-<td>
-
-0
-
-</td>
-
-<td>
-
-NA
-
-</td>
-
-<td>
-
-750
-
-</td>
-
-<td>
-
-560
-
-</td>
-
-</tr>
-
-</table></div>
-
-<ul>
-<li>The test score of a student when they took a tutorial.</li>
-<li>The grey background means the student is sampled.</li>
-<li>The underline means the student is assigned to the treatment group.</li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Difference from structural estimation approach</h2></hgroup><article  id="difference-from-structural-estimation-approach">
-
-</article></slide><slide class=""><hgroup><h2>Structural estimation approach</h2></hgroup><article  id="structural-estimation-approach">
-
-<ul>
-<li>Traditional approach in economics.</li>
-<li>Origins from Haavelmo (1943, 1944).</li>
-<li>All textbooks and econometric classes starting from the OLS and moving on to IV and GMM are based on the structural estimation approach.
-
-<ul>
-<li>Describe an economic model with shocks.</li>
-<li>Derive the equilibrium condition (<em>structural-form</em> econometric model).</li>
-<li>Solve the equilibrium condition for endogenous variables (<em>reduced-form</em> econometric model).</li>
-<li>Use OLS to estimate parameters in the reduced-form model.</li>
-<li>Use GMM to estimate parameters in the structural-form model.</li>
-<li>Use IV to estimate parameters in part of the structural-form model.</li>
-</ul></li>
-<li>The pure form is found in Hsiao (1983)</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Difference in philosophy</h2></hgroup><article  id="difference-in-philosophy">
-
-<ul>
-<li>Anything assumed outside data distribution is a latent model.
-
-<ul>
-<li>The latent model in structural estimation approach is an economic model.</li>
-<li>The latent model in potential outcome approach is a potential outcome model, which may or may not be derived from an economic model.</li>
-</ul></li>
-<li>Restrictions from latent model
-
-<ul>
-<li>In structural estimation approach, the economic model is used to derive restrictions.</li>
-<li>In potential outcome approach, institutional knowledge is used to derive restrictions, and using economic model is avoided.</li>
-<li>In potential outcome approach, an economic model just gives an interpretation of the result.</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Identification</h2></hgroup><article  id="identification">
-
-</article></slide><slide class=""><hgroup><h2>Model and the State of the World</h2></hgroup><article  id="model-and-the-state-of-the-world">
-
-<ul>
-<li>Consider the previous table of student’s test score.</li>
-<li>Suppose that we are interested in the finite-sample average treatment effect.</li>
-<li><em>Model</em> \(\mathcal{M}\): possible values of \(\mathbf{Y}^\ast(\cdot)\) and \(\mathbf{P}_Z\).</li>
-<li><em>The state of the world</em>: a value of \(m = (\mathbf{y}^\ast(\cdot), \mathbf{p}_Z) \in \mathcal{M}\).
-
-<ul>
-<li>For example: \(\mathbf{y}^\ast(\cdot)\) is as in the table, \(\mathbf{p}_Z\) is a completely randomized experiment.</li>
-</ul></li>
-<li>This uniquely determines the value of <em>parameter of interest</em> \(\theta\): \[
-\theta = \frac{1}{N} \sum_{i = 1}^N [y_i^\ast(1) - y_i^\ast(0)] = 174.  
-\]</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Information and Structure</h2></hgroup><article  id="information-and-structure">
-
-<ul>
-<li><em>Information</em> \(\phi\) to the analyst: all information that the analyst has about the model.
-
-<ul>
-<li>Includes the basic setting of the binary potential outcome model.</li>
-<li>Include the knowledge of the assignment mechanism.</li>
-<li>Does not include the potential outcome.</li>
-</ul></li>
-<li><em>Structure</em> \(s(\phi, \theta) \subset \mathcal{M}\): the value of \(m \in \mathcal{M}\) that is consistent with the information \(\phi\) and the value of \(\theta\).</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Observationally equivalent and Identification</h2></hgroup><article  id="observationally-equivalent-and-identification">
-
-<ul>
-<li>Parameter \(\theta\) and \(\tilde{\theta}\) are said to be <em>observationally equivalent</em> if there exist information \(\phi\) and \(s(\phi, \theta) \neq \emptyset\) and \(s(\phi, \tilde{\theta}) \neq \emptyset\).
-
-<ul>
-<li>If two parameters are observationally equivalent, both can be consistent with the information to the analyst.</li>
-</ul></li>
-<li>The parameter \(\theta\) is said to be <em>identified</em> if there is no other parameter \(\tilde{\theta}\) that is observationally equivalent to \(\theta\).</li>
-<li>The parameter space \(\Theta\) is said to be <em>globally identified</em> if every parameter in \(\Theta\) is identified.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example-1">
-
-<ul>
-<li>Because \(Y_i\) and the assignment mechanism \(\mathbf{p}_z\) is included in information \(\phi\), the analyst can calculate the following expected value \[
-\mathbb{E}\left[\frac{1}{N_1}\sum_{i = 1}^N Z_i Y_i - \frac{1}{N_0} \sum_{i = 1}^N (1 - Z_i) Y_i\right].
-\]</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Example</h2></hgroup><article  id="example-2">
-
-<ul>
-<li><p>Because the knowledge that the assignment mechanism is unconfounded is included in information \(\phi\), the analyst can show that the above is \[
+<li>With the two-sided noncompliers, \(ITT_Y\) is a mixture of ITT effects of 4 compliance status. \[
 \begin{split}
-  &amp;\frac{1}{N_1} \sum_{i = 1}^N \mathbb{E}[Z_i] Y_i^\ast(1) - \frac{1}{N_0} \sum_{i = 1}^N (1 - \mathbb{E}[Z_i]) Y_i^\ast(0) \\
-  &amp;= \frac{1}{N_1} \sum_{i = 1}^N \frac{N_1}{N} Y_i^\ast(1) - \frac{1}{N_0} \sum_{i = 1}^N \frac{N_0}{N} Y_i^\ast(0) \\
-  &amp;= \frac{1}{N} \sum_{i = 1}^N Y_i^\ast(1) - \frac{1}{N} \sum_{i = 1}^N Y_i^\ast(0) \\
-  &amp;= \theta
+ITT_Y 
+&amp;= ITT_{Y, nt} \cdot \pi_{nt} + ITT_{Y, co} \cdot \pi_{co} \\
+&amp;+ ITT_{Y, df} \cdot \pi_{df} + ITT_{Y, at} \cdot \pi_{at}.
 \end{split}
-\]</p></li>
-<li><p>The information uniquely determines \(\theta\): The parameter \(\theta\) is identified.</p></li>
+\]</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Counterexample</h2></hgroup><article  id="counterexample">
+</article></slide><slide class=""><hgroup><h2>Exclusion restrictions for nevertakers and alwaystakers</h2></hgroup><article  id="exclusion-restrictions-for-nevertakers-and-alwaystakers">
 
 <ul>
-<li>Suppose that assignment mechanism \(\mathbf{p}_Z\) is such that assigning tutorial to three students whose individual treatment effect is the highest.
+<li><strong>Assumption: Exclusion restriction for nevertakers</strong>
 
 <ul>
-<li>Units 1, 2, 7 are always treated.</li>
-<li>Units 5, 9 are never treated.</li>
+<li>For all nevertakers: \[
+Y_i^\ast(0, 0) = Y_i^\ast(1, 0).
+\]</li>
+</ul></li>
+<li><strong>Assumption: Exclusion restriction for alwaystakers</strong>
+
+<ul>
+<li>For all alwaystakers: \[
+Y_i^\ast(0, 1) = Y_i^\ast(1, 1).
+\]</li>
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Counterexample</h2></hgroup><article  id="counterexample-1">
-
-<div style="display: flex; justify-content: center; gap: 20px;">
-<div>
-<table style="border-collapse: collapse; margin: auto; font-family: sans-serif;">
-
-<tr style="background-color: #EFEFEF;">
-
-<th style="padding: 0.5em;">
-
-\(i\)
-
-</th>
-
-<th colspan="2" style="background-color: #EFEFEF; padding: 0.5em;">
-
-</th>
-
-</tr>
-
-<tr>
-
-<td>
-
-</td>
-
-<td style="padding: 0.5em;">
-
-\(Y_i^\ast(0)\)
-
-</td>
-
-<td style="padding: 0.5em;">
-
-\(Y_i^\ast(1)\)
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-350
-
-</td>
-
-<td style="text-decoration: underline;">
-
-500
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-2
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td style="text-decoration: underline;">
-
-700
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-3
-
-</td>
-
-<td>
-
-800
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-4
-
-</td>
-
-<td>
-
-700
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-5
-
-</td>
-
-<td style="text-decoration: underline;">
-
-650
-
-</td>
-
-<td>
-
-780
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-6
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td>
-
-450
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-7
-
-</td>
-
-<td>
-
-250
-
-</td>
-
-<td style="text-decoration: underline;">
-
-400
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-8
-
-</td>
-
-<td>
-
-850
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-9
-
-</td>
-
-<td style="text-decoration: underline;">
-
-760
-
-</td>
-
-<td>
-
-820
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-10
-
-</td>
-
-<td>
-
-750
-
-</td>
-
-<td>
-
-560
-
-</td>
-
-</tr>
-
-</table></div>
-
-<div>
-<table style="border-collapse: collapse; margin: auto; font-family: sans-serif;">
-
-<!-- Second table content here -->
-
-<tr style="background-color: #EFEFEF;">
-
-<th style="padding: 0.5em;">
-
-\(i\)
-
-</th>
-
-<th colspan="2" style="background-color: #EFEFEF; padding: 0.5em;">
-
-</th>
-
-</tr>
-
-<tr>
-
-<td>
-
-</td>
-
-<td style="padding: 0.5em;">
-
-\(Y_i^\ast(0)\)
-
-</td>
-
-<td style="padding: 0.5em;">
-
-\(Y_i^\ast(1)\)
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-1
-
-</td>
-
-<td>
-
-[340]
-
-</td>
-
-<td style="text-decoration: underline;">
-
-500
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-2
-
-</td>
-
-<td>
-
-[310]
-
-</td>
-
-<td style="text-decoration: underline;">
-
-700
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-3
-
-</td>
-
-<td>
-
-800
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-4
-
-</td>
-
-<td>
-
-700
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-5
-
-</td>
-
-<td style="text-decoration: underline;">
-
-650
-
-</td>
-
-<td>
-
-[790]
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-6
-
-</td>
-
-<td>
-
-320
-
-</td>
-
-<td>
-
-450
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-7
-
-</td>
-
-<td>
-
-[240]
-
-</td>
-
-<td style="text-decoration: underline;">
-
-400
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-8
-
-</td>
-
-<td>
-
-850
-
-</td>
-
-<td>
-
-900
-
-</td>
-
-</tr>
-
-<tr style="background-color: #656565; color: #FFFFFF;">
-
-<td>
-
-9
-
-</td>
-
-<td style="text-decoration: underline;">
-
-760
-
-</td>
-
-<td>
-
-[830]
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-
-10
-
-</td>
-
-<td>
-
-750
-
-</td>
-
-<td>
-
-560
-
-</td>
-
-</tr>
-
-</table></div></div>
+</article></slide><slide class=""><hgroup><h2>Implications for \(ITT_{Y, nt}\) and \(ITT_{Y, at}\)</h2></hgroup><article  id="implications-for-itt_y-nt-and-itt_y-at">
+
+<p>\[
+\begin{split}
+ITT_{Y, nt} &amp; = \frac{1}{N_{nt}} \sum_{i: G_i = nt}\{Y_i^\ast[1, D_i^\ast(1)] - Y_i^\ast[0, D_i^\ast(0)] \}\\
+&amp;=\frac{1}{N_{nt}} \sum_{i: G_i = 
+nt}\{Y_i^\ast(1, 0) - Y_i^\ast(0, 0) \}\\
+&amp;=0.
+\end{split}
+\]</p>
+
+<p>\[
+\begin{split}
+ITT_{Y, at} &amp; = \frac{1}{N_{at}} \sum_{i: G_i = at}\{Y_i^\ast[1, D_i^\ast(1)] - Y_i^\ast[0, D_i^\ast(0)] \}\\
+&amp;=\frac{1}{N_{at}} \sum_{i: G_i = at}\{Y_i^\ast(1, 1) - Y_i^\ast(0, 1) \}\\
+&amp;=0.
+\end{split}
+\] - Therefore, \(ITT_Y\) is a mixture of compliers and defiers.</p>
+
+</article></slide><slide class=""><hgroup><h2>Monotonicity</h2></hgroup><article  id="monotonicity">
 
 <ul>
-<li>The value of \(\frac{1}{N_1} \sum_{i = 1}^N Z_i Y_i - \frac{1}{N_0} \sum_{i = 1}^N (1 - Z_i) Y_i\) is always -171.7 because treatment assignment does not change.</li>
-<li>Change of the model from the left to right does not change \(\phi\) including this value because it just modifies the values of potential outcome that are never observed and increases the average treatment effect by 10.</li>
+<li>Moreover, we assume there are no defiers.</li>
+<li>This is a substantive assumption that needs to be justified from the contextual knowledge.</li>
+<li>For example, suppose that:
+
+<ul>
+<li>\(Z_i\): draft to the Vietnam war.</li>
+<li>\(D_i\): go to the Vietnam war.</li>
+<li>Compliers: goes to the Vietnam war if drafted, while does not if not drafted.</li>
+<li>Defiers: volunteers to the Vietnam war if not drafted, while does not go if drafted.</li>
+</ul></li>
+<li>Formally:</li>
+<li><strong>Assumption: Monotonicity</strong>
+
+<ul>
+<li>For all subjects \(D_i^\ast(1) \ge D_i^\ast(0)\).</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Identification of \(ITT_{Y, co}\)</h2></hgroup><article  id="identification-of-itt_y-co">
+
+<ul>
+<li>Under the exclusion restriction for never takers, always takers, and the monotonicity, we have: \[
+ITT_Y = ITT_{Y, co} \cdot \pi_{co}.
+\]</li>
+<li>Moreover: \[
+\begin{split}
+ITT_D 
+&amp;= \mathbb{E}[D_i^\ast(1) - D_i^\ast(0)| G_i = nt] \cdot \pi_{nt}\\
+&amp;+ \mathbb{E}[D_i^\ast(1) - D_i^\ast(0)| G_i = at] \cdot \pi_{at}\\
+&amp;+ \mathbb{E}[D_i^\ast(1) - D_i^\ast(0)| G_i = co] \cdot \pi_{co}\\
+&amp;+ \mathbb{E}[D_i^\ast(1) - D_i^\ast(0)| G_i = df] \cdot \pi_{df}\\
+&amp;=\pi_{co}.
+\end{split}
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Identification of \(ITT_{Y, co}\)</h2></hgroup><article  id="identification-of-itt_y-co-1">
+
+<ul>
+<li>Therefore, \(ITT_{Y, co}\) is identified as: \[
+ITT_{Y, co} = \frac{ITT_Y}{ITT_D}.
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Estimation and inference</h2></hgroup><article  id="estimation-and-inference">
+
+<ul>
+<li>The estimation and inference is, therefore, the same as the one-sided noncompliers.</li>
+<li>The connection to the instrumental variable estimation is the same as well.</li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Multi-value instrumental variables</h2></hgroup><article  id="multi-value-instrumental-variables">
+
+</article></slide><slide class=""><hgroup><h2>Generalizing the instrumental variable</h2></hgroup><article  id="generalizing-the-instrumental-variable">
+
+<ul>
+<li>The treatment assignment \(Z\) is often interpreted as the instrumental variable in econometrics.</li>
+<li>In econometrics, we often use multi-valued or even continuous variable instead of a binary variable as \(Z\).</li>
+<li>How do we generalize the LATE to the multi-valued instrumental variables?</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Potential outcome and structural selection model</h2></hgroup><article  id="potential-outcome-and-structural-selection-model">
+
+<ul>
+<li>Consider the following framework: \[
+Y^\ast(1) = \mu_1(X) + U_1,
+\] \[
+Y^\ast(0) = \mu_0(X) + U_0,
+\] \[
+D = 1\{\mu_D(Z, X) \ge V\}.
+\]</li>
+<li>We observe \(Y = Y^\ast(1) \cdot D + Y^\ast(0) \cdot (1 - D)\).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>About the additive separability</h2></hgroup><article  id="about-the-additive-separability">
+
+<ul>
+<li>Note that the additive separability of the potential outcome is without loss of generality, because if: \[
+Y^\ast(1) = \tilde{\mu}_1(X, \tilde{U}_1),
+\] we can redefine: \[
+\mu_1(X) \equiv \mathbb{E}[\tilde{\mu}_1(X, \tilde{U}_1)|X],
+\] and: \[
+U_1 \equiv Y^\ast(1) - \mathbb{E}[\tilde{\mu}_1(X, \tilde{U}_1)|X].
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Assumptions</h2></hgroup><article  id="assumptions">
+
+<ol>
+<li>Instrument independence: \((U_1, U_0, V)  \perp \!\!\! \perp Z | X\).</li>
+<li>Exclusion restriction: \(\mu_D(Z, X)\) has a non-degenerate distribution given \(X\).</li>
+<li>Scalar \(V\) is continuously distributed.</li>
+<li>\(\mathbb{E}[|Y^\ast(1)|]\) and \(\mathbb{E}[|Y^\ast(0)|]\) are finite.</li>
+<li>\(0 &lt; \mathbb{P}[D = 1| X] &lt; 1\).</li>
+</ol>
+
+<ul>
+<li>Vytlacil (2002) showed that these assumptions are equivalent to the identifying assumptions for LATE.</li>
+<li>In particular, the threshold crossing selection equation with scalar \(V\) can be interpreted as the monotonicity assumption.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Propensity score</h2></hgroup><article  id="propensity-score">
+
+<ul>
+<li>Under the first assumption, the propensity score can be written as: \[
+\begin{split}
+e(z, x) 
+&amp;\equiv \mathbb{P}(D = 1 | z, x) \\
+&amp;= \mathbb{P}[V \le \mu_D(z, x) | z, x]\\
+&amp;= \mathbb{P}\{F_{V|X}(V|x) \le F_{V|X}[\mu_D(z, x)|x]|z, x\}\\
+&amp;= \mathbb{P}\{U_D \le F_{V|X}[\mu_D(z, x)|x]|z, x\}, U_D|X \sim U[0, 1]\\
+&amp;= F_{V|X}[\mu_D(z, x)|x].
+\end{split}
+\]</li>
+<li>Then, under the third assumption, we have: \[
+D =1\{e(Z, X) \ge U_D\}, U_D|X \sim U[0, 1].
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Marginal treatment effect</h2></hgroup><article  id="marginal-treatment-effect">
+
+<ul>
+<li>In this framework, define the <strong>marginal treatment effect (MTE)</strong> as follows: \[
+\tau_{mte}(x, u_D) \equiv \mathbb{E}[Y^\ast(1) - Y^\ast(0)| X = x, U_D = u_D],
+\] as a function of \((x, u_D)\).</li>
+<li>We can define the other estimands such as the average treatment effect and local average treatment effect as a function of the marginal treatment effects.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>LATE as a function of MTEs</h2></hgroup><article  id="late-as-a-function-of-mtes">
+
+<ul>
+<li>For example, we can write LATE as: \[
+\begin{split}
+\tau_{late}(x) 
+&amp;= \mathbb{E}[Y^\ast(1) - Y^\ast(0)| X = x, G = co]\\
+&amp;= \mathbb{E}[Y^\ast(1) - Y^\ast(0)| X = x, D(z) = 1, D(z&#39;) = 0]\\
+&amp;= \mathbb{E}[Y^\ast(1) - Y^\ast(0)| X = x, U_D \le e(z, x), U_D \ge e(z&#39;, x)]\\
+&amp;=\frac{1}{e(z, x) - e(z&#39;, x)} \int_{e(z&#39;, x)}^{e(z, x)} \tau_{mte}(x, u_D) du_D.
+\end{split}
+\]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Local IV estimand</h2></hgroup><article  id="local-iv-estimand">
+
+<ul>
+<li>We define the <strong>local IV (LIV) estimand</strong> as: \[
+\tau_{liv}(x, e) \equiv \frac{\partial}{\partial e}\mathbb{E}[Y|X = x, e(Z, x) = e].
+\]</li>
+<li>We can nonparametrically estimate LIV \(\tau_{liv}(x, e)\) at every \(e\) in the support of the conditional distribution of \(e(Z, X)\) given \(X = x\).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>LIV identifies MTE</h2></hgroup><article  id="liv-identifies-mte">
+
+<p>\[
+\begin{split}
+\mathbb{E}[Y|e(Z) = e] 
+&amp;= \mathbb{E}[Y^\ast(0)| e(z) = e]\\
+&amp;+ \mathbb{E}\{D\cdot[Y^\ast(1) - Y^\ast(0)]| e(z) = e\} \\
+&amp;= \mathbb{E}[Y^\ast(0)| e(z) = e]\\
+&amp;+ \mathbb{E}[Y^\ast(1) - Y^\ast(0)| D = 1, e(z) = e] \cdot \mathbb{P}[D = 1|e(z) = e]\\
+&amp;= \mathbb{E}[Y^\ast(0)| e(z) = e] + \mathbb{E}[Y^\ast(1) - Y^\ast(0)| D = 1, e(z) = e] \cdot e\\
+&amp;= \mathbb{E}[Y^\ast(0)] + \mathbb{E}[Y^\ast(1) - Y^\ast(0)| D = 1, e(z) = e] \cdot e\\
+&amp;= \mathbb{E}[Y^\ast(0)] + (\mu_1 - \mu_0) \cdot e\\
+&amp;+ \mathbb{E}[U_1 - U_0| D = 1, e(z) = e] \cdot e\\
+&amp;= \mathbb{E}[Y^\ast(0)] + (\mu_1 - \mu_0) \cdot e + \mathbb{E}[U_1 - U_0| U_D \le e] \cdot e\\
+&amp;= \mathbb{E}[Y^\ast(0)] + (\mu_1 - \mu_0) \cdot e\\
+&amp;+ \int_0^e \mathbb{E}[U_1 - U_0| U_d = u_D] d u_D.
+\end{split}
+\]</p>
+
+</article></slide><slide class=""><hgroup><h2>LIV identifies MTE</h2></hgroup><article  id="liv-identifies-mte-1">
+
+<ul>
+<li>By taking the derivatives with respect to \(e\), we have: \[
+\begin{split}
+\tau_{liv}(e) 
+&amp;= \frac{\partial}{\partial e} \mathbb{E}[Y|e(Z) = e]  \\
+&amp;= \mu_1 - \mu_0 + \mathbb{E}[U_1 - U_0| U_d = e] \\
+&amp;= \tau_{mte}(e).
+\end{split}
+\]</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Reference</h2></hgroup><article  id="reference">
 
 <ul>
-<li>Chapter 1-4, Guido W. Imbens and Donald B. Rubin, 2015, Causal Inference for Statistics, Social, and Biomedical Sciences, Cambridge University Press.</li>
-<li>Section 1-3, Athey, Susan, and Guido Imbens. 2016. &ldquo;The Econometrics of Randomized Experiments.&rdquo; arXiv [stat.ME]. arXiv. <a href='http://arxiv.org/abs/1607.00698' title=''>http://arxiv.org/abs/1607.00698</a>.</li>
-<li>Abadie, Alberto, Susan Athey, Guido W. Imbens, and Jeffrey M. Wooldridge. 2020. &ldquo;Sampling‐based versus Design‐based Uncertainty in Regression Analysis.&rdquo; Econometrica: Journal of the Econometric Society 88 (1): 265–96.</li>
-<li>Haavelmo, Trygve. &ldquo;The Statistical Implications of a System of Simultaneous Equations.&rdquo; Econometrica 11, no. 1 (1943): 1–12.</li>
-<li>Haavelmo, Trygve. &ldquo;The Probability Approach in Econometrics.&rdquo; Econometrica 12 (1944): iii–115.</li>
-<li>Hsiao, Cheng. &ldquo;Chapter 4 Identification.&rdquo; In Handbook of Econometrics, 1:223–83. Elsevier, 1983.</li>
+<li>Chapter 23-24, Guido W. Imbens and Donald B. Rubin, 2015, Causal Inference for Statistics, Social, and Biomedical Sciences, Cambridge University Press.</li>
+<li>Section 9, Athey, Susan, and Guido Imbens. 2016. &ldquo;The Econometrics of Randomized Experiments.&rdquo; arXiv [stat.ME]. arXiv. <a href='http://arxiv.org/abs/1607.00698' title=''>http://arxiv.org/abs/1607.00698</a>.</li>
+<li>Vytlacil, Edward J. 2002. &ldquo;Independence, Monotonicity, and Latent Index Models: An Equivalence Result&rdquo;, Econometrica 70 (1): 331–41.</li>
+<li>Heckman and Vytlacil (2005) &ldquo;Structural Equations, Treatment Effects, and Econometric Policy Evaluation&rdquo;, Econometrica 73 (3): 669-738.</li>
 </ul></article></slide>
 
 
